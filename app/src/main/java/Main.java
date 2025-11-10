@@ -15,6 +15,7 @@ public class Main {
                             +"what each recipe requires. For each customer you serve, you gain a point");
         System.out.println("The options bellow will allow you to navigate to different sections of the game, good luck " +username);
         System.out.println("Option 1: see forecast");
+        System.out.println("Option 2: see inventory");
         int choosenOption = scanner.nextInt();
         if (choosenOption == 1) {
             //generates random number from 0, 1, 2
@@ -42,6 +43,9 @@ public class Main {
                 default:
                     break;
             }
+        }
+        if (choosenOption == 2){
+            
         }
 
         scanner.close();

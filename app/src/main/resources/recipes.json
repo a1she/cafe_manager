@@ -1,0 +1,20 @@
+{
+  "hot_chocolate_basic": {
+    "name": "Hot Chocolate",
+    "ingredients": [
+      { "item": "milk", "quantity": 2 },
+      { "item": "cocoa_powder", "quantity": 1 },
+      { "item": "sugar", "quantity": 0.5 }
+    ],
+    "steps": "milk + cocoa_powder + sugar"
+  },
+  "chocolate_croissant": {
+    "name": "Chocolate Croissant",
+    "ingredients": [
+      { "item": "dough", "quantity": 2 },
+      { "item": "butter", "quantity": 0.75 },
+      { "item": "chocolate", "quantity": 1 }
+    ],
+    "steps": "dough + butter + chocolate"
+  }
+}
