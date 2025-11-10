@@ -1,5 +1,10 @@
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
+
+import cafemanager.Ingredients;
 
 public class Main {
     public static void main(String[] args) {
@@ -44,9 +49,24 @@ public class Main {
                     break;
             }
         }
+
+        //create inventory 
+        HashMap<String, Integer> ingredients  = new HashMap<String, Integer>();
+
+        //default ingredients for user to use
+        ingredients.put("Flour", 5);
+        ingredients.put("Milk", 5);
+        ingredients.put("Butter", 5);
+        ingredients.put("Egg", 5);
+        ingredients.put("Chocolate", 5);
+
         if (choosenOption == 2){
-            
+            for (String i: ingredients.keySet()){
+                System.out.println("Ingredient: " + i + ", Quantity: " + ingredients.get(i));
+            }
         }
+
+        
 
         scanner.close();
         
