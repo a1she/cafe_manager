@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import cafemanager.Ingredients;
+import cafemanager.Supply;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,7 +21,9 @@ public class Main {
         System.out.println("The options bellow will allow you to navigate to different sections of the game, good luck " +username);
         System.out.println("Option 1: see forecast");
         System.out.println("Option 2: see inventory");
+        System.out.println("Option 3: buy ingredients");
         int choosenOption = scanner.nextInt();
+
         if (choosenOption == 1) {
             //generates random number from 0, 1, 2
             int randomNumber = (int)(Math.random()*3) ;
@@ -50,7 +52,8 @@ public class Main {
             }
         }
 
-        //create inventory 
+        //create hashmap to store ingredients
+        int coins = 50;
         HashMap<String, Integer> ingredients  = new HashMap<String, Integer>();
 
         //default ingredients for user to use
@@ -60,9 +63,23 @@ public class Main {
         ingredients.put("Egg", 5);
         ingredients.put("Chocolate", 5);
 
+        //displaying inventory
         if (choosenOption == 2){
+            System.out.println("You currently have " + coins + " coins.");
+            System.out.println("The current items in your inventory are:");
             for (String i: ingredients.keySet()){
                 System.out.println("Ingredient: " + i + ", Quantity: " + ingredients.get(i));
+            }
+        }
+
+        List<Supply> Supply = new ArrayList<>();
+        Supply.add(new Supply("Flour", 10, 5));
+        Supply.add(new Supply("Milk", 5, 5));
+
+        if (choosenOption == 3) {
+            System.out.println("You can buy: ");
+            for (int i =0 ; i< Supply.size(); i++){
+                Supply.get(i).outputSupply();
             }
         }
 
