@@ -6,7 +6,13 @@ import java.util.Scanner;
 
 import cafemanager.Supply;
 
+
+
 public class Main {
+
+    public static int calculatePrice(int inventoryAmount, int price, int userAmount ){
+        return userAmount*(price/inventoryAmount);
+}
     public static void main(String[] args) {
 
         System.out.println("Enter your name");
@@ -77,15 +83,42 @@ public class Main {
         Supply.add(new Supply("Milk", 5, 5));
 
         if (choosenOption == 3) {
-            System.out.println("You can buy: ");
+
+            //display options which the user can buy
+            System.out.println("These are the options you can buy from:");
             for (int i =0 ; i< Supply.size(); i++){
                 Supply.get(i).outputSupply();
             }
-        }
 
-        
+            //check what user wants to buy
+            System.out.println("What would you like to buy?");
+            //buffer
+            scanner.nextLine();
+            String buyOption = scanner.nextLine();
+
+            int checkNoItems = 0;
+
+            for (int i = 0; i<Supply.size(); i++){
+                if (Supply.get(i).getName().equals(buyOption)) {
+
+                    System.out.println("You can buy " + Supply.get(i).getAmount()+ " for " + Supply.get(i).getPrice());
+                    System.out.println("How many would you like to buy?");
+                    int buyAmount = scanner.nextInt();
+
+                    if (Supply.get(i).getAmount() >= buyAmount) {
+                        //need method to calculate the cost
+                        System.out.println("Calculating Cost..."); 
+                        int price = calculatePrice(Supply.get(i).getAmount(), Supply.get(i).getPrice(), buyAmount);
+                        System.out.println("Your total cost is " + price + " coins");
+
+                    }
+                }
+                checkNoItems++;
+            }
 
         scanner.close();
-        
+
+        }
     }
 }
+

@@ -15,4 +15,16 @@ public class Supply {
     public void outputSupply(){
         System.out.println("Item - Name: " + name + ", Price: " + price + ", Amount: " + amount);
     }
+
+    public String getName(){
+        return name;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public int getPrice() {
+        return price;
+    }
 }
