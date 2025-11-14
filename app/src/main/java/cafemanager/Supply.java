@@ -12,8 +12,8 @@ public class Supply {
         this.amount = amount;
     }
 
-    public void outputSupply(){
-        System.out.println("Item - Name: " + name + ", Price: " + price + ", Amount: " + amount);
+    public String toString(){
+        return "Item - Name: " + name + ", Price: " + price + ", Amount: " + amount;
     }
 
     public String getName(){

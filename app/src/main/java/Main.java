@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import cafemanager.Customer;
 import cafemanager.Supply;
 
 
 
 public class Main {
 
+    //method to calculate the cost of item
     public static int calculatePrice(int inventoryAmount, int price, int userAmount ){
         return userAmount*(price/inventoryAmount);
 }
@@ -34,6 +36,8 @@ public class Main {
                 System.out.println("Option 1: see forecast");
                 System.out.println("Option 2: see inventory");
                 System.out.println("Option 3: buy ingredients");
+                System.out.println("Option 4: see customers");
+
                 int choosenOption = scanner.nextInt();
     
                 if (choosenOption == 1) {
@@ -93,7 +97,7 @@ public class Main {
                     //display options which the user can buy
                     System.out.println("These are the options you can buy from:");
                     for (int i =0 ; i< Supply.size(); i++){
-                        Supply.get(i).outputSupply();
+                        System.out.println(Supply.get(i));
                     }
     
                     //want to loop this part?
@@ -114,7 +118,6 @@ public class Main {
                             int buyAmount = scanner.nextInt();
     
                             if (Supply.get(i).getAmount() >= buyAmount) {
-                                //need method to calculate the cost
                                 System.out.println("Calculating Cost..."); 
                                 int price = calculatePrice(Supply.get(i).getAmount(), Supply.get(i).getPrice(), buyAmount);
                                 System.out.println("Your total cost is " + price + " coins.");
@@ -139,9 +142,21 @@ public class Main {
                     if (checkingForNoItems == Supply.size()) {
                         System.out.println("This item doesn't exist in the inventory, try again");
                     }
-    
-                    
                 } 
+
+                if (choosenOption == 4) {
+
+                List<Customer> customers = new ArrayList<>();
+                customers.add(new Customer("Alex", "hot chocolate", 2));
+                customers.add(new Customer("Nicole", "Cappucino", 1));
+                customers.add(new Customer("Ashley", "coffee", 5));
+                customers.add(new Customer("John", "matcha", 3));
+                customers.add(new Customer("Smith", "latte", 1));
+                for (int i =0 ; i< customers.size(); i++){
+                        System.out.println(customers.get(i));
+                    }
+                }
+
             }
             while (proceed.equals("Y"));
         }
