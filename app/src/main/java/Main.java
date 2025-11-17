@@ -1,22 +1,14 @@
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 
 import cafemanager.Customer;
 import cafemanager.Supply;
@@ -33,15 +25,19 @@ public class Main {
     //method to read from recipe json file
     public static void readRecipes(String item) {
         try {
+                //replace all spaces with _ and convert item to lower case
+                item = item.replaceAll(" ", "_");
+                item = item.toLowerCase();
+                //get file path from class    
                 InputStream path =  Main.class.getResourceAsStream("/recipes.json");               
-                //reads text from json file
+                //reads text from json file using path
                 Reader reader = new InputStreamReader(path,StandardCharsets.UTF_8);
                 JsonObject parser = JsonParser.parseReader(reader).getAsJsonObject();
                 reader.close();
-                System.out.println(parser.get("hot_chocolate").getAsJsonObject());
+                //print json file
+                System.out.println(parser.get(item).getAsJsonObject());
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("doesnt work");
             }
     }
 
