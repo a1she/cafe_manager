@@ -1,5 +1,5 @@
 {
-  "hot_chocolate_basic": {
+  "hot_chocolate": {
     "name": "Hot Chocolate",
     "ingredients": [
       { "item": "milk", "quantity": 2 },

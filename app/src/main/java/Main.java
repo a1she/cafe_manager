@@ -1,8 +1,22 @@
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 
 import cafemanager.Customer;
 import cafemanager.Supply;
@@ -14,9 +28,31 @@ public class Main {
     //method to calculate the cost of item
     public static int calculatePrice(int inventoryAmount, int price, int userAmount ){
         return userAmount*(price/inventoryAmount);
-}
-    public static void main(String[] args) {
+    }
 
+    //method to read from recipe json file
+    public static void readRecipes(String item) {
+        try {
+                InputStream path =  Main.class.getResourceAsStream("/recipes.json");               
+                //reads text from json file
+                Reader reader = new InputStreamReader(path,StandardCharsets.UTF_8);
+                JsonObject parser = JsonParser.parseReader(reader).getAsJsonObject();
+                reader.close();
+                System.out.println(parser.get("hot_chocolate").getAsJsonObject());
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("doesnt work");
+            }
+    }
+
+    public static void main(String[] args) {
+        
+        ArrayList<String> Menu = new ArrayList<>();
+        Menu.add("Hot Chocolate");
+        Menu.add("Chocolate Croissant");
+        // Menu.add("Hot Chocolate");
+        // Menu.add("Hot Chocolate");
+        // Menu.add("Hot Chocolate");
         System.out.println("Enter your name");
         Scanner scanner = new Scanner(System.in);
         String username = scanner.nextLine();
@@ -37,6 +73,7 @@ public class Main {
                 System.out.println("Option 2: see inventory");
                 System.out.println("Option 3: buy ingredients");
                 System.out.println("Option 4: see customers");
+                System.out.println("Option 5: make food");
 
                 int choosenOption = scanner.nextInt();
     
@@ -155,6 +192,19 @@ public class Main {
                 for (int i =0 ; i< customers.size(); i++){
                         System.out.println(customers.get(i));
                     }
+                }
+
+                if (choosenOption == 5) {
+                    System.out.println("What would you like to make?");
+                    scanner.nextLine();
+                    String dish = scanner.nextLine();
+                    for (int i =0; i<Menu.size(); i++) {
+                        if (Menu.get(i).equals(dish)){
+                            readRecipes(dish);
+                        }
+                    }
+
+
                 }
 
             }
