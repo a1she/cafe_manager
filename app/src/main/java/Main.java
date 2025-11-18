@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -11,37 +12,31 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import cafemanager.Customer;
+import cafemanager.FileHandling;
 import cafemanager.Supply;
 
 
 
 public class Main {
 
+    public static JsonObject recipeList;
+
+    //method to check if user can create item
+    public static void checkIfItemCanBeMade(JsonObject recipeList, int number){
+        //know the quantity of each item, and then multiply for number of items, and check if user can buy that.
+        var ingredients = recipeList.getAsJsonArray("ingredients");
+        for (int i = 0; i<ingredients.size(); i++){
+            System.out.println(ingredients.get(i));
+        }
+        System.out.println(recipeList.get("ingredients"));
+    }
+
     //method to calculate the cost of item
     public static int calculatePrice(int inventoryAmount, int price, int userAmount ){
         return userAmount*(price/inventoryAmount);
     }
 
-    //method to read from recipe json file
-    public static void readRecipes(String item) {
-        try {
-                //replace all spaces with _ and convert item to lower case
-                item = item.replaceAll(" ", "_");
-                item = item.toLowerCase();
-                //get file path from class    
-                InputStream path =  Main.class.getResourceAsStream("/recipes.json");               
-                //reads text from json file using path
-                Reader reader = new InputStreamReader(path,StandardCharsets.UTF_8);
-                JsonObject parser = JsonParser.parseReader(reader).getAsJsonObject();
-                reader.close();
-                //print json file
-                System.out.println(parser.get(item).getAsJsonObject());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-    }
-
-    public static void main(String[] args) {
+        public static void main(String[] args) {
         
         ArrayList<String> Menu = new ArrayList<>();
         Menu.add("Hot Chocolate");
@@ -164,6 +159,7 @@ public class Main {
                                         coins = coins - price;
                                         System.out.println("You have successfully purchased " + Supply.get(i).getName() + " for " + price + " coins.");
                                         System.out.println("You have " +coins+ " coins left.");
+                                        // remember this Supply.get(i).setAmount(buyAmount);
                                     }
                                     else System.out.println("You don't have enough coins to buy this");
                                 }
@@ -191,14 +187,25 @@ public class Main {
                 }
 
                 if (choosenOption == 5) {
-                    System.out.println("What would you like to make?");
-                    scanner.nextLine();
-                    String dish = scanner.nextLine();
-                    for (int i =0; i<Menu.size(); i++) {
-                        if (Menu.get(i).equals(dish)){
-                            readRecipes(dish);
-                        }
-                    }
+                    FileHandling file = new FileHandling();
+                    file.WriteFileForRecipes();
+                    file.ReadRecipesFile();
+                    // System.out.println("What would you like to make?");
+                    // scanner.nextLine();
+                    // String dish = scanner.nextLine();
+                    // for (int i =0; i<Menu.size(); i++) {
+                    //     if (Menu.get(i).equals(dish)){
+                    //         FileHand
+                    //         System.out.println("How many would you like to make?");
+                    //         int itemNumber = scanner.nextInt();
+                    //         checkIfItemCanBeMade(recipeList,itemNumber);
+
+
+
+
+
+                    //     }
+                    // }
 
 
                 }
@@ -212,6 +219,7 @@ public class Main {
             
 
         scanner.close();
-        }
+        
+    }
 }
 

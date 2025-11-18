@@ -27,4 +27,9 @@ public class Supply {
     public int getPrice() {
         return price;
     }
+
+    public void setAmount(int purchase) {
+        int total = amount - purchase;
+        this.amount = total;
+    }
 }
