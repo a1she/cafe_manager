@@ -1,0 +1,16 @@
+
+      Welcome to Cafe Manager aisha!
+
+╔══════════════════════════════════════╗
+║           ☕ Café Manager ☕         ║
+╟──────────────────────────────────────╢
+║                                      ║
+║ 📅 Today’s customers are on the way. ║
+║ 🔎 Check the forecast to preview     ║
+║    who’s arriving.                   ║
+║ 🧺 Low on stock? Buy from suppliers. ║
+║ 🍽️ Ready? Start serving now.          ║
+║ 📜 Unsure about recipes? Open menu.  ║
+║ ⭐ Earn points with every serve.     ║
+║                                      ║
+╚══════════════════════════════════════╝

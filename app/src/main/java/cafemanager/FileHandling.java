@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class FileHandling {
 
-    public void WriteFileForRecipes(){
+    public void writeFileForRecipes(){
         try {
             FileWriter writer = new FileWriter("recipes.txt");
             writer.write("\nRecipe: Hot Chocolate\n" + //
@@ -34,7 +34,7 @@ public class FileHandling {
         }
     }
 
-    public void ReadRecipesFile() {
+    public void readRecipesFile() {
 
         File myObj = new File("recipes.txt");
 
@@ -48,4 +48,60 @@ public class FileHandling {
             // TODO: handle exception
         }
     }
+
+    public void writeIntroductionFile(String username) {
+        try {
+            FileWriter writer = new FileWriter("introduction.txt");
+            writer.write("\n      Welcome to Cafe Manager " +username+ "!\n");
+            writer.write("\n╔══════════════════════════════════════╗\n" + //
+                                "║           ☕ Café Manager ☕         ║\n" + //
+                                "╟──────────────────────────────────────╢\n" + //
+                                "║                                      ║\n" + //
+                                "║ 📅 Today’s customers are on the way. ║\n" + //
+                                "║ 🔎 Check the forecast to preview     ║\n" + //
+                                "║    who’s arriving.                   ║\n" + //
+                                "║ 🧺 Low on stock? Buy from suppliers. ║\n" + //
+                                "║ 🍽️ Ready? Start serving now.          ║\n" + //
+                                "║ 📜 Unsure about recipes? Open menu.  ║\n" + //
+                                "║ ⭐ Earn points with every serve.     ║\n" + //
+                                "║                                      ║\n" + //
+                                "╚══════════════════════════════════════╝" + //
+                                "");   
+            writer.close();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
+    public void readIntroductionFile() {
+
+        File myObj = new File("introduction.txt");
+
+        try (Scanner myReader = new Scanner(myObj)) {
+            while (myReader.hasNextLine()) {
+            String data = myReader.nextLine();
+            System.out.println(data);
+            }
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
+    public void checkIfItemCanBeMade(){
+        File myFile = new File("recipes.txt");
+        try (Scanner myRead = new Scanner(myFile)) {
+            while (myRead.hasNext()) {
+                String data = myRead.next();
+                System.out.println(data);
+            }
+
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
+
 }
