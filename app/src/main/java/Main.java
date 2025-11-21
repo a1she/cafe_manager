@@ -97,14 +97,17 @@ public class Main {
     
                 //create hashmap to store ingredients
                 int coins = 50;
-                HashMap<String, Integer> ingredients  = new HashMap<String, Integer>();
+                HashMap<String, Double> ingredients  = new HashMap<String, Double>();
     
                 //default ingredients for user to use
-                ingredients.put("Flour", 5);
-                ingredients.put("Milk", 5);
-                ingredients.put("Butter", 5);
-                ingredients.put("Egg", 5);
-                ingredients.put("Chocolate", 5);
+                ingredients.put("Flour", 5.0);
+                ingredients.put("Milk", 5.0);
+                ingredients.put("Butter", 5.0);
+                ingredients.put("Egg", 5.0);
+                ingredients.put("Chocolate", 5.0);
+                ingredients.put("Dough", 5.0);
+                ingredients.put("Sugar", 5.0);
+                ingredients.put("Cocoa_Powder", 5.0);
     
                 //displaying inventory
                 if (choosenOption == 2){
@@ -188,18 +191,19 @@ public class Main {
                 if (choosenOption == 5) {
                     System.out.println("What would you like to make?");
                     scanner.nextLine();
-                    FileHandling file = new FileHandling();
-                    file.writeFileForRecipes();
-                    file.readRecipesFile();
-                    System.out.println("printing smt out");
-                    file.checkIfItemCanBeMade();
-                    // String dish = scanner.nextLine();
-                    // for (int i =0; i<Menu.size(); i++) {
-                    //     if (Menu.get(i).equals(dish)){
-                    //         FileHand
-                    //         System.out.println("How many would you like to make?");
-                    //         int itemNumber = scanner.nextInt();
-                    //         checkIfItemCanBeMade(recipeList,itemNumber);
+                    String dish = scanner.nextLine();
+                    for (int i =0; i<Menu.size(); i++) {
+                        if (Menu.get(i).equals(dish)){
+                            FileHandling file = new FileHandling();
+                            file.writeFileForRecipes();
+                            file.readRecipesFile(dish);
+                            System.out.println("\nHow many would you like to make?");
+                            int itemNumber = scanner.nextInt();
+                            System.out.println("testing :");
+                            file.checkIfItemCanBeCreated(dish,itemNumber,ingredients);
+                        }
+                    }
+                    
 
 
 

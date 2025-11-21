@@ -1,54 +1,15 @@
 package cafemanager;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class FileHandling {
-
-    public void writeFileForRecipes(){
-        try {
-            FileWriter writer = new FileWriter("recipes.txt");
-            writer.write("\nRecipe: Hot Chocolate\n" + //
-                                "Ingredients:\n" + //
-                                "\n" + //
-                                " - milk | 2\n" + //
-                                " - cocoa_powder | 1\n" + //
-                                " - sugar | 0.5\n" + //
-                                "Steps: milk + cocoa_powder + sugar\n" + //
-                                "");
-            writer.write("\nRecipe: Chocolate Croissant\n" + //
-                                "Ingredients:\n" + //
-                                "\n" + //
-                                " - dough | 2\n" + //
-                                " - butter | 0.75\n" + //
-                                " - chocolate | 1\n" + //
-                                "Steps: milk + cocoa_powder + sugar\n" + //
-                                "");
-            writer.close();         
-        } catch (Exception e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-            // TODO: handle exception
-        }
-    }
-
-    public void readRecipesFile() {
-
-        File myObj = new File("recipes.txt");
-
-        try (Scanner myReader = new Scanner(myObj)) {
-            while (myReader.hasNextLine()) {
-            String data = myReader.nextLine();
-            System.out.println(data);
-            }
-
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-    }
-
+    
     public void writeIntroductionFile(String username) {
         try {
             FileWriter writer = new FileWriter("introduction.txt");
@@ -68,9 +29,8 @@ public class FileHandling {
                                 "╚══════════════════════════════════════╝" + //
                                 "");   
             writer.close();
-
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
     }
 
@@ -82,26 +42,118 @@ public class FileHandling {
             while (myReader.hasNextLine()) {
             String data = myReader.nextLine();
             System.out.println(data);
+            myReader.close();
             }
 
         } catch (Exception e) {
-            // TODO: handle exception
-        }
-    }
-
-    public void checkIfItemCanBeMade(){
-        File myFile = new File("recipes.txt");
-        try (Scanner myRead = new Scanner(myFile)) {
-            while (myRead.hasNext()) {
-                String data = myRead.next();
-                System.out.println(data);
-            }
-
-
-        } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
     }
 
 
+    public void writeFileForRecipes(){
+        try {
+            FileWriter writer = new FileWriter("recipes.txt");
+            writer.write("\nRecipe: Hot Chocolate\n" + //
+                                "\n" + //
+                                "Ingredients     : Quantity\n" + //
+                                " - Milk         | 2.0\n" + //
+                                " - Cocoa_Powder | 1.0\n" + //
+                                " - Sugar        | 0.5\n" + //
+                                "Steps: milk + cocoa powder + sugar" + //
+                                "\nRecipe: Chocolate Croissant\n" + //
+                                "\n" + //
+                                "Ingredients: : Quantity\n" + //
+                                " - dough     | 2.0\n" + //
+                                " - butter    | 0.75\n" + //
+                                " - chocolate | 1.0\n" + //
+                                "Steps: milk + cocoa_powder + sugar\n" + //
+                                "");
+            writer.close();         
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //searches for the recipe within the recipe file
+    public void readRecipesFile(String dish) {
+
+        File myObj = new File("recipes.txt");
+
+        try (Scanner myReader = new Scanner(myObj)) {
+            while (myReader.hasNextLine()) {
+            String data =myReader.nextLine();
+            if (data.contains(dish)){
+                do {
+                    if (data.startsWith("Recipe: ")|| data.equals(null) ) {
+                        break;
+                    }
+                    else {
+                        data= myReader.nextLine();
+                        System.out.println(data);
+                    }
+                    } while (!data.startsWith("Recipe: ")); 
+                }
+            }
+        myReader.close();
+    } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // need to search for the quantiy and check if they have that much in their ingredinents(hashmap contains name + int quanityt).
+    public void checkIfItemCanBeCreated(String dish, int number, HashMap<String, Double> Ingredients) {
+
+        File myObj = new File("recipes.txt");
+
+        try (Scanner myReader = new Scanner(myObj)) {
+            while (myReader.hasNextLine()) {
+                String data =myReader.nextLine();
+                if (data.contains(dish)){
+                    int notEnoughIngredients = 0;
+                    int enoughIngredients = 0;
+                    do {
+                        data= myReader.nextLine();
+                        if (data.startsWith("Recipe: ")) {
+                            break;
+                        }
+                        else if (data.contains("-")){
+                            data = data.replaceAll(" ","");
+                            //because of the replace all i can't have a space for an ingredient with more than 1 name e.i cocoa powder !+ cocoapowder
+                            System.out.println(data);
+                            String ingredientName = data.substring(1, data.length()-4);
+                            String ingredientQuantity = data.substring(data.length()-3, data.length());
+                            Double inDouble = Double.parseDouble(ingredientQuantity) * number ;
+                            System.out.println(ingredientName);
+                            System.out.println(ingredientQuantity);
+                            System.out.println(inDouble);
+                            for (String i: Ingredients.keySet()) {
+                                //might change it to contains?
+                                if (i.equals(ingredientName)){
+                                    System.out.println("testing 2");
+                                    if( Ingredients.get(i) >= inDouble){
+                                        System.out.println("testing 3");
+                                        enoughIngredients++;
+                                    }
+                                }
+                                else notEnoughIngredients++;
+                            }
+                        }
+                    } while (!data.startsWith("Recipe: ")); 
+                    System.out.println(enoughIngredients);
+                    System.out.println(notEnoughIngredients);
+                    if (enoughIngredients == 3) {
+                        FoodInventory item = new FoodInventory(dish, number);
+                        System.out.println("successfully created " +number + "of " + dish);
+                    }
+                    else System.out.println("You don't have enough ingredients to make this.");
+
+                }
+            }
+            myReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+

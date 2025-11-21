@@ -1,16 +1,15 @@
 
 Recipe: Hot Chocolate
-Ingredients:
 
- - milk | 2
- - cocoa_powder | 1
- - sugar | 0.5
-Steps: milk + cocoa_powder + sugar
-
+Ingredients     : Quantity
+ - Milk         | 2.0
+ - Cocoa_Powder | 1.0
+ - Sugar        | 0.5
+Steps: milk + cocoa powder + sugar
 Recipe: Chocolate Croissant
-Ingredients:
 
- - dough | 2
- - butter | 0.75
- - chocolate | 1
+Ingredients: : Quantity
+ - dough     | 2.0
+ - butter    | 0.75
+ - chocolate | 1.0
 Steps: milk + cocoa_powder + sugar
