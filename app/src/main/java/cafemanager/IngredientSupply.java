@@ -1,23 +1,23 @@
 package cafemanager;
 
-public class Supply {
+public class IngredientSupply {
 
-    private String name;
+    private String ingredientName;
     private int price;
     private int amount;
 
-    public Supply(String name, int price, int amount){
-        this.name = name;
+    public IngredientSupply(String name, int price, int amount){
+        this.ingredientName = name;
         this.price = price;
         this.amount = amount;
     }
 
     public String toString(){
-        return "Item - Name: " + name + ", Price: " + price + ", Amount: " + amount;
+        return "Item - Name: " + ingredientName + ", Price: " + price + ", Amount: " + amount;
     }
 
     public String getName(){
-        return name;
+        return ingredientName;
     }
 
     public int getAmount() {
