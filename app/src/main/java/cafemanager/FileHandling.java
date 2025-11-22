@@ -1,8 +1,6 @@
 package cafemanager;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 
 import java.util.Scanner;
@@ -64,9 +62,9 @@ public class FileHandling {
                                 "\nRecipe: Chocolate Croissant\n" + //
                                 "\n" + //
                                 "Ingredients: : Quantity\n" + //
-                                " - dough     | 2.0\n" + //
-                                " - butter    | 0.75\n" + //
-                                " - chocolate | 1.0\n" + //
+                                " - Dough     | 2.0\n" + //
+                                " - Butter    | 0.75\n" + //
+                                " - Chocolate | 1.0\n" + //
                                 "Steps: milk + cocoa_powder + sugar\n" + //
                                 "");
             writer.close();         
@@ -110,44 +108,38 @@ public class FileHandling {
             while (myReader.hasNextLine()) {
                 String data =myReader.nextLine();
                 if (data.contains(dish)){
-                    int notEnoughIngredients = 0;
                     int enoughIngredients = 0;
                     do {
-                        data= myReader.nextLine();
-                        if (data.startsWith("Recipe: ")) {
-                            break;
-                        }
-                        else if (data.contains("-")){
-                            data = data.replaceAll(" ","");
-                            //because of the replace all i can't have a space for an ingredient with more than 1 name e.i cocoa powder !+ cocoapowder
-                            System.out.println(data);
-                            String ingredientName = data.substring(1, data.length()-4);
-                            String ingredientQuantity = data.substring(data.length()-3, data.length());
-                            Double inDouble = Double.parseDouble(ingredientQuantity) * number ;
-                            System.out.println(ingredientName);
-                            System.out.println(ingredientQuantity);
-                            System.out.println(inDouble);
-                            for (String i: Ingredients.keySet()) {
-                                //might change it to contains?
-                                if (i.equals(ingredientName)){
-                                    System.out.println("testing 2");
-                                    if( Ingredients.get(i) >= inDouble){
-                                        System.out.println("testing 3");
-                                        enoughIngredients++;
+                        while (myReader.hasNextLine())
+                        {
+                            data= myReader.nextLine();
+                            if (data.startsWith("Recipe: ")) {
+                                break;
+                            }
+                            else if (data.contains("-")){
+                                data = data.replaceAll(" ","");
+                                //because of the replace all i can't have a space for an ingredient with more than 1 name e.i cocoa powder !+ cocoapowder
+                                int index = data.indexOf("|");
+                                String ingredientName = data.substring(1, index);
+                                String ingredientQuantity = data.substring(index+1, data.length());
+                                Double inDouble = Double.parseDouble(ingredientQuantity) * number ;
+                                for (String i: Ingredients.keySet()) {
+                                    //might change it to contains?
+                                    if (i.equals(ingredientName)){
+                                        if( Ingredients.get(i) >= inDouble){
+                                            enoughIngredients++;
+                                        }
                                     }
-                                }
-                                else notEnoughIngredients++;
+                                }            
                             }
                         }
+                        break;
                     } while (!data.startsWith("Recipe: ")); 
-                    System.out.println(enoughIngredients);
-                    System.out.println(notEnoughIngredients);
                     if (enoughIngredients == 3) {
                         FoodInventory item = new FoodInventory(dish, number);
                         System.out.println("successfully created " +number + "of " + dish);
                     }
                     else System.out.println("You don't have enough ingredients to make this.");
-
                 }
             }
             myReader.close();

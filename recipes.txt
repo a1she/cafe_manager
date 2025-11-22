@@ -9,7 +9,7 @@ Steps: milk + cocoa powder + sugar
 Recipe: Chocolate Croissant
 
 Ingredients: : Quantity
- - dough     | 2.0
- - butter    | 0.75
- - chocolate | 1.0
+ - Dough     | 2.0
+ - Butter    | 0.75
+ - Chocolate | 1.0
 Steps: milk + cocoa_powder + sugar
