@@ -6,10 +6,16 @@ import java.util.Scanner;
 
 import cafemanager.Customer;
 import cafemanager.FileHandling;
+import cafemanager.FoodInventory;
 import cafemanager.IngredientSupply;
 import cafemanager.Utility;
 public class Main {
-        public static void main(String[] args) {
+
+    public static void main(String[] args) {
+        
+        // variables created:
+        List<FoodInventory> foodInventory = Utility.createFoodInventory();
+        
 
         System.out.println("\nEnter your name\n");
         Scanner scanner = new Scanner(System.in);
@@ -29,7 +35,8 @@ public class Main {
                 System.out.println("Option 2: see inventory");
                 System.out.println("Option 3: buy ingredients");
                 System.out.println("Option 4: see customers");
-                System.out.println("Option 5: make food\n");
+                System.out.println("Option 5: make food");
+                System.out.println("Option 6: serve customer\n");
 
                 int choosenOption = scanner.nextInt();
     
@@ -109,7 +116,7 @@ public class Main {
 
                 if (choosenOption == 4) {
 
-                List<Customer> customers =Utility.creaCustomers();
+                List<Customer> customers =Utility.createCustomers();
                 for (int i =0 ; i< customers.size(); i++){
                         System.out.println("\n"+customers.get(i));
                     }
@@ -132,16 +139,76 @@ public class Main {
                         }
                     }
                 }
+
+                if (choosenOption == 6){
+
+                
+                    // this will be looped until each customer is served
+                    System.out.println("\nOption 1: Serve next customer");
+                    System.out.println("Option 2: View queue and choose customer");
+                    System.out.println("Select from 1-3");
+                    int servingCustomerOption = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (servingCustomerOption == 1 ){
+
+                        // might need to loop for invalid arguements?
+                        List<Customer> customers =Utility.createCustomers();
+                        
+                        for (int i =0 ; i< customers.size(); i++){
+                            
+                            int counter = 0;
+                            System.out.println("\n"+customers.get(i));
+                            System.out.println("Serve this customer? (Y/N)");
+                            String serveOption = scanner.next();
+                            String foodDesiredByCustomer = customers.get(i).getItem();
+
+                            if (serveOption.equals("Y")) {
+                                for (int c = 0; c < foodInventory.size(); c++) {
+                                    String foodNameInInventory =foodInventory.get(c).getFoodName();
+
+                                    if (foodDesiredByCustomer.equals(foodNameInInventory)) {
+                                        counter = 0;
+                                        int foodAmountInInventory = foodInventory.get(c).getItemQuantity();
+                                        int foodAmountCustomerWants = customers.get(i).getAmount();
+                                            
+                                        if (foodAmountInInventory >= foodAmountCustomerWants) {
+                                            System.out.println("\n serving customer ......");
+                                            foodInventory.get(c).setItemQuantity(foodAmountInInventory-foodAmountCustomerWants);
+                                            System.out.println("\n You have " + foodInventory.get(c).getItemQuantity() + " " + foodNameInInventory + " left in your inventory");
+                                        }
+                                        else {
+                                            System.out.println(" \n You don't have enough " + foodNameInInventory + " in your inventory to serve this customer");
+                                        }
+                                    }
+                                    else counter++;
+                                    }
+                                    
+                                if (counter == foodInventory.size() ) {
+                                    System.out.println("You don't have this dish within your food inventory, go make some.");
+                                } 
+                            }
+
+                            if (serveOption.equals("N")) {
+                                System.out.println("\n5 coins have been deducted.");
+                                System.out.println("\nGoing back to the options menu....\n");
+                                break;
+                            }
+                        }
+                    }
+
+                    if (servingCustomerOption == 2) {
+                        
+                    }
+                }
             }
             while (proceed.equals("Y"));
         }
         else{
             System.out.println("Have a nice day! see you soon?"); 
         } 
-            
 
-        scanner.close();
-        
+        scanner.close();       
     }
 }
 

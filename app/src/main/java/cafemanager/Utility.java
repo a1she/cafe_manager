@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Utility {
+    
 
     public static ArrayList<String> createMenu() {
         ArrayList<String> Menu = new ArrayList<>();
@@ -30,15 +31,25 @@ public class Utility {
         return ingredientsCustomerHas;
     }
 
-    public static List<Customer> creaCustomers() {
+    public static List<Customer> createCustomers() {
     List<Customer> customers = new ArrayList<>();
-    customers.add(new Customer("Alex", "hot chocolate", 2));
+    customers.add(new Customer("Alex", "Hot Chocolate", 2));
     customers.add(new Customer("Nicole", "Cappucino", 1));
-    customers.add(new Customer("Ashley", "coffee", 5));
-    customers.add(new Customer("John", "matcha", 3));
-    customers.add(new Customer("Smith", "latte", 1));
+    // customers.add(new Customer("Ashley", "coffee", 5));
+    // customers.add(new Customer("John", "matcha", 3));
+    // customers.add(new Customer("Smith", "latte", 1));
 
     return customers;
+    }
+
+    public static List<FoodInventory> createFoodInventory() {
+        List<FoodInventory> foodInventory = new ArrayList<>();
+        foodInventory.add(new FoodInventory("Hot Chocolate", 2));
+        foodInventory.add(new FoodInventory("Chocolate Croissant", 1));
+        // foodInventory.add(new FoodInventory("Hot Chocolate", 1));
+        // foodInventory.add(new FoodInventory("Hot Chocolate", 1));
+        // foodInventory.add(new FoodInventory("Hot Chocolate", 1));
+        return foodInventory;
     }
 
     //generates random number from 0, 1, 2

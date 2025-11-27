@@ -16,4 +16,13 @@ public class Customer {
         return name + " wants " + amount+ " " +item + ".";
     }
 
+    public String getItem() {
+        return item;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+
 }

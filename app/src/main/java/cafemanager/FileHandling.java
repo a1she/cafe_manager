@@ -40,7 +40,7 @@ public class FileHandling {
             while (myReader.hasNextLine()) {
             String data = myReader.nextLine();
             System.out.println(data);
-            myReader.close();
+            //myReader.close();
             }
 
         } catch (Exception e) {
@@ -136,6 +136,7 @@ public class FileHandling {
                         break;
                     } while (!data.startsWith("Recipe: ")); 
                     if (enoughIngredients == 3) {
+                        //maybe update what's already in inventory, if it doesn't exist then add it ;p
                         FoodInventory item = new FoodInventory(dish, number);
                         System.out.println("successfully created " +number + "of " + dish);
                     }

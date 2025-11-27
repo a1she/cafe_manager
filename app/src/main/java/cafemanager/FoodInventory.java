@@ -10,4 +10,16 @@ public class FoodInventory {
         this.itemQuantity =itemQuantity;
     }
 
+    public String getFoodName() {
+        return itemName;
+    }
+
+    public int getItemQuantity () {
+        return itemQuantity;
+    }
+
+    public void setItemQuantity( int totalAmount) {
+        this.itemQuantity =totalAmount;
+    }
+
 }
