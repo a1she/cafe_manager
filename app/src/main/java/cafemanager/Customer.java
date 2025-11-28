@@ -16,6 +16,14 @@ public class Customer {
         return name + " wants " + amount+ " " +item + ".";
     }
 
+    public String printAsList() {
+        return name + " (" + amount + ") item/items";
+    }
+    
+    public String getName() {
+        return name;
+    }
+
     public String getItem() {
         return item;
     }

@@ -85,4 +85,29 @@ public class Utility {
         return userAmount*(price/inventoryAmount);
     }
 
+    public static void serveCustomer( int counter, List<FoodInventory> foodInventory, String foodDesiredByCustomer, List<Customer> customers, int i) {
+        for (int c = 0; c < foodInventory.size(); c++) {
+            String foodNameInInventory =foodInventory.get(c).getFoodName();
+
+            if (foodDesiredByCustomer.equals(foodNameInInventory)) {
+                counter = 0;
+                int foodAmountInInventory = foodInventory.get(c).getItemQuantity();
+                int foodAmountCustomerWants = customers.get(i).getAmount();
+
+                if (foodAmountInInventory >= foodAmountCustomerWants) {
+                    System.out.println("\n serving customer ......");
+                    foodInventory.get(c).setItemQuantity(foodAmountInInventory-foodAmountCustomerWants);
+                    System.out.println("\n You have " + foodInventory.get(c).getItemQuantity() + " " + foodNameInInventory + " left in your inventory");
+                }
+                else {
+                    System.out.println(" \n You don't have enough " + foodNameInInventory + " in your inventory to serve this customer");
+                }
+            }
+            else counter++;
+        }
+
+        if (counter == foodInventory.size() ) {
+            System.out.println("You don't have this dish within your food inventory, go make some.");
+        } 
+    }
 }
