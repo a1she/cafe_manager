@@ -1,25 +1,9 @@
 package cafemanager;
 
-public class FoodInventory {
+public class FoodInventory extends StockItem {
 
-    private String itemName;
-    private int itemQuantity;
-
-    public FoodInventory(String itemName, int itemQuantity){
-        this.itemName = itemName;
-        this.itemQuantity =itemQuantity;
-    }
-
-    public String getFoodName() {
-        return itemName;
-    }
-
-    public int getItemQuantity () {
-        return itemQuantity;
-    }
-
-    public void setItemQuantity( int totalAmount) {
-        this.itemQuantity =totalAmount;
+    public FoodInventory(String dishName, int quantity){
+        super(dishName, quantity);
     }
 
 }

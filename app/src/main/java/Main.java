@@ -83,13 +83,13 @@ public class Main {
                     for (int i = 0; i<Supply.size(); i++){
                         if (Supply.get(i).getName().equals(buyOption)) {
     
-                            System.out.println("\nYou can buy " + Supply.get(i).getAmount()+ " for " + Supply.get(i).getPrice());
+                            System.out.println("\nYou can buy " + Supply.get(i).getQuantity()+ " for " + Supply.get(i).getPrice());
                             System.out.println("How many would you like to buy?");
                             int buyAmount = scanner.nextInt();
     
-                            if (Supply.get(i).getAmount() >= buyAmount) {
+                            if (Supply.get(i).getQuantity() >= buyAmount) {
                                 System.out.println("\nCalculating Cost...\n"); 
-                                int price = Utility.calculatePrice(Supply.get(i).getAmount(), Supply.get(i).getPrice(), buyAmount);
+                                int price = Utility.calculatePrice(Supply.get(i).getQuantity(), Supply.get(i).getPrice(), buyAmount);
                                 System.out.println("\nYour total cost is " + price + " coins.");
                                 System.out.println("Are you sure you want to buy this? Y/N\n");
                                 scanner.nextLine();
