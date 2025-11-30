@@ -11,6 +11,7 @@ public class Utility {
         ArrayList<String> Menu = new ArrayList<>();
         Menu.add("Hot Chocolate");
         Menu.add("Chocolate Croissant");
+        //TODO: add more menus
 
         return Menu;
     }
@@ -49,7 +50,17 @@ public class Utility {
         // foodInventory.add(new FoodInventory("Hot Chocolate", 1));
         // foodInventory.add(new FoodInventory("Hot Chocolate", 1));
         // foodInventory.add(new FoodInventory("Hot Chocolate", 1));
+        //TODO:add more default food 4 user
         return foodInventory;
+    }
+
+    public static List<IngredientSupply> createIngredientsCustomerCanBuyFrom() {
+        List<IngredientSupply> ingredientSupply = new ArrayList<>();
+        ingredientSupply.add(new IngredientSupply("Flour", 10, 5));
+        ingredientSupply.add(new IngredientSupply("Milk", 5, 5));
+        //TODO: add more suppplies to buy fro
+        
+        return ingredientSupply;
     }
 
     //generates random number from 0, 1, 2

@@ -1,10 +1,7 @@
 package cafemanager;
 
 public class IngredientSupply extends StockItem {
-
-    private String ingredientName;
     private int price;
-    private int amount;
 
     public IngredientSupply(String name, int price, int amount){
         super(name, amount);
@@ -12,7 +9,7 @@ public class IngredientSupply extends StockItem {
     }
 
     public String toString(){
-        return "Item - Name: " + ingredientName + ", Price: " + price + ", Amount: " + amount;
+        return "Item - Name: " + super.getName() + ", Price: " + price + ", Amount: " + super.getQuantity();
     }
 
     public int getPrice() {

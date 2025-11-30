@@ -9,7 +9,7 @@ public class StockItem {
         this.quantity = quantity;
     }
 
-    public String getName () {
+    public String getName() {
         return name;
     }
 
