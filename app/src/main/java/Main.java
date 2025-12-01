@@ -19,44 +19,72 @@ public class Main {
     public static HashMap<String, Double> ingredientsCustomerHas = Utility.createIngredientsCustomerHas();
 
     public static void showOptionMenu() {
-        System.out.println("\nOption 1: see forecast");
-        System.out.println("Option 2: see inventory");
-        System.out.println("Option 3: buy ingredients");
-        System.out.println("Option 4: see customers");
-        System.out.println("Option 5: make food");
-        System.out.println("Option 6: serve customer");
-        System.out.println("Select from 1-6");
+        System.out.println("""
+                ╔══════════════════════════════════════╗
+                ║             Café Manager             ║
+                ╟──────────────────────────────────────╢
+                ║                                      ║
+                ║     1) See forecast ˚ ☁️⋅♡𓂃 ࣪ ִֶָ☾.☂      ║
+                ║     2) See inventory 🛒              ║
+                ║     3) Buy ingredients 💰🛍           ║
+                ║     4) See customers 🧑‍🤝‍🧑          ║
+                ║     5) Make food ‧₊˚ ⋅ 𓐐𓎩 ‧₊˚⋅       ║
+                ║     6) Serve customer (˘▽˘)っ 𓌉◯𓇋    ║
+                ║                                      ║
+                ╚══════════════════════════════════════╝
+                """);
+        System.out.println(" \nSelect from 1-6");
     }
 
     //method for option 2
     public static void showInventory(int coins) {
-        System.out.println("\n1) see ingredients");
-        System.out.println("2) see dishes");
-        System.out.println("3) see your points");
-        System.out.println("Select from 1-3 \n");
-        int inventoryOption = scanner.nextInt();
-        scanner.nextLine();
-        //TODO: can also be out of range + loop and how to leave back to menu option?
-        
-        try {
-            switch (inventoryOption) {
-                case 1:
-                    for (int i = 0; i < foodInventory.size(); i++ ){
-                        System.out.println(" - Dish: " +foodInventory.get(i).getName() + ", Quantity" + foodInventory.get(i).getQuantity());
-                    }
-                    break;
-                case 2:
-                    for (String i: ingredientsCustomerHas.keySet()){
-                        System.out.println(" - Ingredient: " + i + ", Quantity: " + ingredientsCustomerHas.get(i));
-                    }
-                    break;
-                case 3:
-                    System.out.println("\nYou currently have " + coins + " coins.");
-                    break;
-            }
+        boolean valid = true;
+        while (valid){
+            System.out.println("""
+                                ╔══════════════════════════════════════╗
+                                ║              Inventory               ║
+                                ╟──────────────────────────────────────╢
+                                ║                                      ║
+                                ║    1) See ingredients    🧺          ║
+                                ║    2) See dishes         🍽️           ║
+                                ║    3) See your points    ✨          ║
+                                ║    4) Back to main menu              ║
+                                ║                                      ║
+                                ╚══════════════════════════════════════╝
+                                """);
+            System.out.println("Select 1-4");
+            int inventoryOption = handleIntUserInput();
+
+            if (inventoryOption >0 && inventoryOption< 5){
             
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid selection. Please enter an integer");
+                switch (inventoryOption) {
+                    case 1:
+                        for (int i = 0; i < foodInventory.size(); i++ ){
+                            System.out.println(" - Dish: " +foodInventory.get(i).getName() + ", Quantity" + foodInventory.get(i).getQuantity());
+                        }
+                        System.out.println("\nPress Enter to return to Inventory");
+                        scanner.nextLine();
+                        break;
+                    case 2:
+                        for (String i: ingredientsCustomerHas.keySet()){
+                            System.out.println(" - Ingredient: " + i + ", Quantity: " + ingredientsCustomerHas.get(i));
+                        }
+                        System.out.println("\nPress Enter to return to Inventory");
+                        scanner.nextLine();
+                        break;
+                    case 3:
+                        System.out.println("\nYou currently have " + coins + " coins.");
+                        System.out.println("\nPress Enter to return to Inventory");
+                        scanner.nextLine();
+                        break;
+                    case 4:
+                        valid = false;
+                        break;
+                }
+            }
+            else{
+                System.out.println("\n Select a number within the specified range\n");
+            }
         }
     }
     
@@ -68,8 +96,7 @@ public class Main {
         }
         //want to loop this part?
         System.out.println("\nWhat would you like to buy?\n");
-        //scanner.nextLine();
-        String buyOption = scanner.nextLine();
+        String buyOption = handleStringUserInput();
             
         int itemsNotPresentInSupply =0; 
         for (int i = 0; i < ingredientSupply.size(); i++){
@@ -77,17 +104,16 @@ public class Main {
                 
                 System.out.println("\nYou can buy " + ingredientSupply.get(i).getQuantity() + " for " + ingredientSupply.get(i).getPrice());
                 System.out.println("How many would you like to buy?");
-                int buyAmount = scanner.nextInt();
+                int buyAmount = handleIntUserInput();
                 
                 if (ingredientSupply.get(i).getQuantity() >= buyAmount) {
                     System.out.println("\nCalculating Cost...\n"); 
                     int price = Utility.calculatePrice(ingredientSupply.get(i).getQuantity(), ingredientSupply.get(i).getPrice(), buyAmount);
                     System.out.println("\nYour total cost is " + price + " coins.");
                     System.out.println("Are you sure you want to buy this? Y/N\n");
-                    scanner.nextLine();
-                    String choice = scanner.nextLine();
+                    String choice = handleStringUserInput();
                     
-                    if (choice.equals("Y")){
+                    if (choice.equalsIgnoreCase("Y")){
                         if (coins>=price) {
                             coins = coins - price;
                             System.out.println("\nYou have successfully purchased " + ingredientSupply.get(i).getName() + " for " + price + " coins.\n");
@@ -108,7 +134,7 @@ public class Main {
 
     public static void makeFood() {
         System.out.println("\nWhat would you like to make?");
-        String dish = scanner.nextLine();
+        String dish = handleStringUserInput();
         ArrayList<String> menu = Utility.createMenu();
         for (int i = 0; i < menu.size(); i++) {
             if (menu.get(i).equals(dish)){
@@ -116,8 +142,7 @@ public class Main {
                 file.writeFileForRecipes();
                 file.readRecipesFile(dish);
                 System.out.println("\nHow many would you like to make?");
-                int itemNumber = scanner.nextInt();
-                scanner.nextLine();
+                int itemNumber = handleIntUserInput();
                 file.checkIfItemCanBeCreated(dish,itemNumber,ingredientsCustomerHas);
             }
         }
@@ -128,14 +153,14 @@ public class Main {
             int counter = 0;
             System.out.println("\n"+customers.get(i));
             System.out.println("Serve this customer? (Y/N)");
-            String serveOption = scanner.next();
+            String serveOption = handleStringUserInput();
             String foodDesiredByCustomer = customers.get(i).getItem();
             
-            if (serveOption.equals("Y")) {
+            if (serveOption.equalsIgnoreCase("Y")) {
                 Utility.serveCustomer(counter, foodInventory, foodDesiredByCustomer, customers, i);
             }
             
-            if (serveOption.equals("N")) {
+            if (serveOption.equalsIgnoreCase("N")) {
                 System.out.println("\n5 coins have been deducted.");
                 System.out.println("\nGoing back to the options menu....\n");
                 break;
@@ -152,19 +177,18 @@ public class Main {
         }
             
         System.out.println("Choose customer from the list");
-        int chosenCustomer = scanner.nextInt();
-        scanner.nextLine();
+        int chosenCustomer = handleIntUserInput();
             
         System.out.println(customers.get(chosenCustomer-1).toString());
         System.out.println("Serve this customer? [Y/N]");
-        String serveOption = scanner.next();
+        String serveOption = handleStringUserInput();
         String foodDesiredByCustomer = customers.get(chosenCustomer-1).getItem();
             
-        if (serveOption.equals("Y")) {
+        if (serveOption.equalsIgnoreCase("Y")) {
             Utility.serveCustomer(0, foodInventory, foodDesiredByCustomer, customers, chosenCustomer-1);
         }
             
-        if (serveOption.equals("N")) {
+        if (serveOption.equalsIgnoreCase("N")) {
             System.out.println("\n5 coins have been deducted.");
             System.out.println("\nGoing back to the options menu....\n");
         }
@@ -192,11 +216,11 @@ public class Main {
                     makeFood();
                     break;
                 case 6:
+                    
                     System.out.println("\nOption 1: Serve next customer");
                     System.out.println("Option 2: View queue and choose customer");
                     System.out.println("Select from 1-2\n");
-                    int servingCustomerOption = scanner.nextInt();
-                    scanner.nextLine();
+                    int servingCustomerOption = handleIntUserInput();
                     switch (servingCustomerOption) {
                         case 1:
                             serveNextCustomer();
@@ -209,6 +233,28 @@ public class Main {
         else System.out.println("Please select from 1-6");
     }
 
+    public static int handleIntUserInput() {
+        while (true) {
+            try {
+                int userInput = scanner.nextInt();
+                scanner.nextLine();
+                return userInput;
+            } catch (InputMismatchException e) {
+                System.out.println("Enter a valid integer");
+                scanner.nextLine();
+            }     
+        }
+    }
+
+    public static String handleStringUserInput() {
+        while (true) {
+            String userInput = scanner.nextLine();
+            if (userInput.matches("^[a-zA-Z]*$")){
+                return userInput;
+            }
+            else {System.out.println("Enter a valid string");}
+            }
+    }
 
     public static void main(String[] args) {
         // variables created:
@@ -223,23 +269,22 @@ public class Main {
         introfile.readIntroductionFile();
 
         System.out.println("\nThe options bellow will allow you to navigate to different sections of the game, good luck " +username);
-        System.out.println("Would you like to continue? Y/N");
-        String proceed = scanner.nextLine();
 
-        while (proceed.equals("Y")) {
+        System.out.println("Would you like to continue? Y/N");
+        String proceed = handleStringUserInput();
+    
+        while (proceed.equalsIgnoreCase("Y")) {
             showOptionMenu();
-            int chosenOption = scanner.nextInt();
-            scanner.nextLine();
+            int chosenOption = handleIntUserInput();
             menuHandler(chosenOption, coins);
             System.out.println("\nWould you like to continue? Y/N");
-            proceed = scanner.nextLine();
+            proceed = handleStringUserInput();
         }
-
-        if (proceed.equals("N")) {
+    
+        if (proceed.equalsIgnoreCase("N")) {
             //TODO: have a message being sent here?
             System.out.println("Have a nice day! see you soon?"); 
         }
-
         scanner.close();       
     }
 }

@@ -11,7 +11,7 @@ public class FileHandling {
     public void writeIntroductionFile(String username) {
         try {
             FileWriter writer = new FileWriter("introduction.txt");
-            writer.write("\n      Welcome to Cafe Manager " +username+ "!\n");
+            writer.write("\n  ☆ Welcome to Café Manager " +username+ " (っ☕)っ \n");
             writer.write("\n╔══════════════════════════════════════╗\n" + //
                                 "║           ☕ Café Manager ☕         ║\n" + //
                                 "╟──────────────────────────────────────╢\n" + //
