@@ -28,14 +28,15 @@ public class Main {
         System.out.println("Select from 1-6");
     }
 
+    //method for option 2
     public static void showInventory(int coins) {
-        System.out.println("1) see ingredients");
+        System.out.println("\n1) see ingredients");
         System.out.println("2) see dishes");
         System.out.println("3) see your points");
-        System.out.println("Select from 1-3");
+        System.out.println("Select from 1-3 \n");
         int inventoryOption = scanner.nextInt();
         scanner.nextLine();
-        //TODO: can also be out of range.
+        //TODO: can also be out of range + loop and how to leave back to menu option?
         
         try {
             switch (inventoryOption) {
@@ -67,10 +68,9 @@ public class Main {
         }
         //want to loop this part?
         System.out.println("\nWhat would you like to buy?\n");
-        scanner.nextLine();
+        //scanner.nextLine();
         String buyOption = scanner.nextLine();
             
-        
         int itemsNotPresentInSupply =0; 
         for (int i = 0; i < ingredientSupply.size(); i++){
             if (ingredientSupply.get(i).getName().equals(buyOption)) {
@@ -107,7 +107,7 @@ public class Main {
     }
 
     public static void makeFood() {
-        System.out.println("What would you like to make?");
+        System.out.println("\nWhat would you like to make?");
         String dish = scanner.nextLine();
         ArrayList<String> menu = Utility.createMenu();
         for (int i = 0; i < menu.size(); i++) {
@@ -179,6 +179,7 @@ public class Main {
                     break;
                 case 2:
                     showInventory(coins);
+                    break;
                 case 3:
                     buyIngredients(coins);
                     break;
@@ -193,7 +194,7 @@ public class Main {
                 case 6:
                     System.out.println("\nOption 1: Serve next customer");
                     System.out.println("Option 2: View queue and choose customer");
-                    System.out.println("Select from 1-2");
+                    System.out.println("Select from 1-2\n");
                     int servingCustomerOption = scanner.nextInt();
                     scanner.nextLine();
                     switch (servingCustomerOption) {
@@ -225,13 +226,14 @@ public class Main {
         System.out.println("Would you like to continue? Y/N");
         String proceed = scanner.nextLine();
 
-        do {
+        while (proceed.equals("Y")) {
             showOptionMenu();
             int chosenOption = scanner.nextInt();
             scanner.nextLine();
             menuHandler(chosenOption, coins);
-            
-        } while (proceed.equals("Y"));
+            System.out.println("\nWould you like to continue? Y/N");
+            proceed = scanner.nextLine();
+        }
 
         if (proceed.equals("N")) {
             //TODO: have a message being sent here?

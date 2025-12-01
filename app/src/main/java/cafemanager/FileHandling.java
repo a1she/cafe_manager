@@ -138,7 +138,8 @@ public class FileHandling {
                     if (enoughIngredients == 3) {
                         //maybe update what's already in inventory, if it doesn't exist then add it ;p
                         FoodInventory item = new FoodInventory(dish, number);
-                        System.out.println("successfully created " +number + "of " + dish);
+                        System.out.println("successfully created " +number + " of " + dish);
+                        //TODO: ADD item to dish array list
                     }
                     else System.out.println("You don't have enough ingredients to make this.");
                 }
