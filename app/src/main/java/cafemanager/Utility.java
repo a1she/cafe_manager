@@ -64,7 +64,7 @@ public class Utility {
         return ingredientSupply;
     }
 
-    //generates random number from 0, 1, 2
+    //generates random number from 0, 1, 2 to create a random forecast
     public static void createForecast() {
         int randomNumber = (int)(Math.random()*3) ;
         switch (randomNumber) {
@@ -85,8 +85,6 @@ public class Utility {
                 System.out.println("In demand we have:");
                 System.out.println("Specialty drinks - flavored lattes, matcha, iced options even in cooler weather.");
                 System.out.println("Brunch items - avocado toast, pastries, cakes, shareables.\n");
-                break;
-            default:
                 break;
         }
     }
