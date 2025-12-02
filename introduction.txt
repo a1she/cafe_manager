@@ -1,5 +1,5 @@
 
-  ☆ Welcome to Café Manager Aisha (っ☕)っ 
+  ☆ Welcome to Café Manager aisha (っ☕)っ 
 
 ╔══════════════════════════════════════╗
 ║           ☕ Café Manager ☕         ║
@@ -14,3 +14,7 @@
 ║ ⭐ Earn points with every serve.     ║
 ║                                      ║
 ╚══════════════════════════════════════╝
+
+You begin with 0 points!
+Earn points by running your café — reach 20 to win!
+But be careful… if your points fall below 0, your café closes immediately.

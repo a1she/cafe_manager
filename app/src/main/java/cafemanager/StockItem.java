@@ -18,7 +18,11 @@ public class StockItem {
     }
 
     public void setQuantity(int purchase) {
-        this.quantity = quantity - purchase;
+        this.quantity = purchase;
+    }
+
+    public void reduceQuantity(int quantity){
+        this.quantity = quantity;
     }
 
 }

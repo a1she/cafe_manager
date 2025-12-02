@@ -5,6 +5,7 @@ import java.io.FileWriter;
 
 import java.util.Scanner;
 import java.util.HashMap;
+import java.util.List;
 
 public class FileHandling {
     
@@ -24,8 +25,11 @@ public class FileHandling {
                                 "║ 📜 Unsure about recipes? Open menu.  ║\n" + //
                                 "║ ⭐ Earn points with every serve.     ║\n" + //
                                 "║                                      ║\n" + //
-                                "╚══════════════════════════════════════╝" + //
-                                "");   
+                                "╚══════════════════════════════════════╝\n" + //
+                                "");
+            writer.write("\nYou begin with 0 points!\n" + //
+                                "Earn points by running your café — reach 20 to win!\n" + //
+                                "But be careful… if your points fall below 0, your café closes immediately.");   
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,7 +52,7 @@ public class FileHandling {
         }
     }
 
-
+    //when adding new recipe, can't have more than one word for ingredients due to whitespace reduction
     public void writeFileForRecipes(){
         try {
             FileWriter writer = new FileWriter("recipes.txt");
@@ -61,11 +65,32 @@ public class FileHandling {
                                 "Steps: milk + cocoa powder + sugar" + //
                                 "\nRecipe: Chocolate Croissant\n" + //
                                 "\n" + //
-                                "Ingredients: : Quantity\n" + //
+                                "Ingredients  : Quantity\n" + //
                                 " - Dough     | 2.0\n" + //
                                 " - Butter    | 0.75\n" + //
                                 " - Chocolate | 1.0\n" + //
                                 "Steps: milk + cocoa_powder + sugar\n" + //
+                                "\nRecipe: Cheese Toastie\n" + //
+                                "\n" + //
+                                "Ingredients    : Quantity\n" + //
+                                " - Butter      | 0.5\n" + //
+                                " - Cheese      | 1.0\n" + //
+                                " - Bread_Slice | 2.0\n" + //
+                                "Steps: butter + cheese + bread slice\n" + //
+                                "\nRecipe: Brownie\n" + //
+                                "\n" + //
+                                "Ingredients: : Quantity\n" + //
+                                " - Sugar     | 0.5\n" + //
+                                " - Butter    | 0.5\n" + //
+                                " - Chocolate | 1.0\n" + //
+                                "Steps: sugar + butter + chocolate  \n" + //
+                                "\nRecipe: Latter\n" + //
+                                "\n" + //
+                                "Ingredients: : Quantity\n" + //
+                                " - Milk      | 1.5\n" + //
+                                " - Coffe     | 1.0\n" + //
+                                " - Sugar     | 0.25\n" + //
+                                "Steps: milk + coffe + sugar\n" + //
                                 "");
             writer.close();         
         } catch (Exception e) {
@@ -100,8 +125,7 @@ public class FileHandling {
     }
 
     // need to search for the quantiy and check if they have that much in their ingredinents(hashmap contains name + int quanityt).
-    public void checkIfItemCanBeCreated(String dish, int number, HashMap<String, Double> Ingredients) {
-
+    public void checkIfItemCanBeCreated(String dish, int number, HashMap<String, Double> Ingredients, List<FoodInventory> dishInventories) {
         File myObj = new File("recipes.txt");
 
         try (Scanner myReader = new Scanner(myObj)) {
@@ -118,13 +142,12 @@ public class FileHandling {
                             }
                             else if (data.contains("-")){
                                 data = data.replaceAll(" ","");
-                                //because of the replace all i can't have a space for an ingredient with more than 1 name e.i cocoa powder !+ cocoapowder
+                                //because of the replace all i can't have a space for an ingredient with more than 1 name e.i cocoa powder != cocoapowder
                                 int index = data.indexOf("|");
                                 String ingredientName = data.substring(1, index);
                                 String ingredientQuantity = data.substring(index+1, data.length());
                                 Double inDouble = Double.parseDouble(ingredientQuantity) * number ;
                                 for (String i: Ingredients.keySet()) {
-                                    //might change it to contains?
                                     if (i.equals(ingredientName)){
                                         if( Ingredients.get(i) >= inDouble){
                                             enoughIngredients++;
@@ -135,11 +158,10 @@ public class FileHandling {
                         }
                         break;
                     } while (!data.startsWith("Recipe: ")); 
+
                     if (enoughIngredients == 3) {
-                        //maybe update what's already in inventory, if it doesn't exist then add it ;p
-                        FoodInventory item = new FoodInventory(dish, number);
+                        Utility.createAndUpdateInventoryDishes(dishInventories, dish, number);
                         System.out.println("successfully created " +number + " of " + dish);
-                        //TODO: ADD item to dish array list
                     }
                     else System.out.println("You don't have enough ingredients to make this.");
                 }

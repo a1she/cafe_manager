@@ -5,61 +5,62 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Utility {
-    
-
     public static ArrayList<String> createMenu() {
         ArrayList<String> Menu = new ArrayList<>();
         Menu.add("Hot Chocolate");
         Menu.add("Chocolate Croissant");
-        //TODO: add more menus
-
+        Menu.add("Cheese Toastie");
+        Menu.add("Latte");
+        Menu.add("Brownie");
         return Menu;
     }
 
     //default ingredients for user to use
     public static HashMap<String, Double> createIngredientsCustomerHas() {
         HashMap<String, Double> ingredientsCustomerHas  = new HashMap<String, Double>();
-        
-        ingredientsCustomerHas.put("Flour", 5.0);
+        ingredientsCustomerHas.put("Cheese", 4.0);
+        ingredientsCustomerHas.put("Bread_Slice", 3.0);
         ingredientsCustomerHas.put("Milk", 5.0);
-        ingredientsCustomerHas.put("Butter", 5.0);
-        ingredientsCustomerHas.put("Egg", 5.0);
-        ingredientsCustomerHas.put("Chocolate", 5.0);
-        ingredientsCustomerHas.put("Dough", 5.0);
-        ingredientsCustomerHas.put("Sugar", 5.0);
-        ingredientsCustomerHas.put("Cocoa_Powder", 5.0);
-
+        ingredientsCustomerHas.put("Butter", 2.0);
+        ingredientsCustomerHas.put("Coffe", 2.0);
+        ingredientsCustomerHas.put("Chocolate", 2.0);
+        ingredientsCustomerHas.put("Dough", 4.0);
+        ingredientsCustomerHas.put("Sugar", 1.0);
+        ingredientsCustomerHas.put("Cocoa_Powder", 1.0);
         return ingredientsCustomerHas;
     }
 
     public static List<Customer> createCustomers() {
     List<Customer> customers = new ArrayList<>();
     customers.add(new Customer("Alex", "Hot Chocolate", 2));
-    customers.add(new Customer("Nicole", "Cappucino", 1));
-    // customers.add(new Customer("Ashley", "coffee", 5));
-    // customers.add(new Customer("John", "matcha", 3));
-    // customers.add(new Customer("Smith", "latte", 1));
-
+    customers.add(new Customer("Nicole", "Latte", 3));
+    customers.add(new Customer("Ashley", "Brownie", 2));
+    customers.add(new Customer("John", "Cheese Toastie", 2));
+    customers.add(new Customer("Smith", "Chocolate Croissant", 3));
     return customers;
     }
 
-    public static List<FoodInventory> createFoodInventory() {
+    public static List<FoodInventory> createDishInventory() {
         List<FoodInventory> foodInventory = new ArrayList<>();
         foodInventory.add(new FoodInventory("Hot Chocolate", 2));
-        foodInventory.add(new FoodInventory("Chocolate Croissant", 1));
-        // foodInventory.add(new FoodInventory("Hot Chocolate", 1));
-        // foodInventory.add(new FoodInventory("Hot Chocolate", 1));
-        // foodInventory.add(new FoodInventory("Hot Chocolate", 1));
-        //TODO:add more default food 4 user
+        foodInventory.add(new FoodInventory("Chocolate Croissant", 2));
+        foodInventory.add(new FoodInventory("Brownie", 2));
+        foodInventory.add(new FoodInventory("Latte", 2));
+        foodInventory.add(new FoodInventory("Cheese Toastie", 2));
         return foodInventory;
     }
 
     public static List<IngredientSupply> createIngredientsCustomerCanBuyFrom() {
         List<IngredientSupply> ingredientSupply = new ArrayList<>();
-        ingredientSupply.add(new IngredientSupply("Flour", 10, 5));
-        ingredientSupply.add(new IngredientSupply("Milk", 5, 5));
-        //TODO: add more suppplies to buy fro
-        
+        ingredientSupply.add(new IngredientSupply("Milk", 10, 5));
+        ingredientSupply.add(new IngredientSupply("Bread_Slice", 10, 5));
+        ingredientSupply.add(new IngredientSupply("Butter", 10, 5));
+        ingredientSupply.add(new IngredientSupply("Coffe", 10, 5));
+        ingredientSupply.add(new IngredientSupply("Cheese", 10, 5));
+        ingredientSupply.add(new IngredientSupply("Chocolate", 10, 5));
+        ingredientSupply.add(new IngredientSupply("Dough", 10, 5));
+        ingredientSupply.add(new IngredientSupply("Sugar", 10, 5));
+        ingredientSupply.add(new IngredientSupply("Cocoa_Powder", 10, 5));
         return ingredientSupply;
     }
 
@@ -72,7 +73,6 @@ public class Utility {
                 System.out.println("In demand we have:");
                 System.out.println("Hot drinks - lattes, cappuccinos, hot chocolate, chai");
                 System.out.println("Comfort bakes - warm pastries, banana bread, soup if available.\n");
-                //what does break do here?
                 break;
             case 1:
                 System.out.println("\nRush hour sucks! Everything is always so fast-paced since everyone wants food to takeout and is in a hurry.");
@@ -96,7 +96,40 @@ public class Utility {
         return userAmount*(price/inventoryAmount);
     }
 
-    public static void serveCustomer( int counter, List<FoodInventory> foodInventory, String foodDesiredByCustomer, List<Customer> customers, int i) {
+    public static void createAndUpdateInventoryIngredients(String ingredientName, HashMap<String, Double> ingredientsCustomerHas, Double buyAmount){
+        int counter =0;
+        for (String i : ingredientsCustomerHas.keySet()) {
+            if (ingredientName.equals(i)){
+                Double amount = ingredientsCustomerHas.get(i);
+                amount = amount + buyAmount;
+                ingredientsCustomerHas.remove(ingredientName);
+                ingredientsCustomerHas.put(ingredientName, amount);  
+            }
+            else counter++;
+        }
+
+        if (counter == ingredientsCustomerHas.size()) {
+            ingredientsCustomerHas.put(ingredientName, buyAmount);
+        }
+    }
+
+    public static void createAndUpdateInventoryDishes(List<FoodInventory> dishInventories, String dish, int buyAmount){
+        int counter =0;
+        for (int i = 0; i < dishInventories.size(); i++ ) {
+            if (dishInventories.get(i).getName().equals(dish)){
+                int amount = dishInventories.get(i).getQuantity();
+                amount = amount + buyAmount;
+                dishInventories.get(i).setQuantity(amount);;  
+            }
+            else counter++;
+        }
+        if (counter == dishInventories.size()) {
+            dishInventories.add(new FoodInventory(dish, buyAmount));
+        }
+    }
+
+    public static int serveCustomer( int counter, List<FoodInventory> foodInventory, String foodDesiredByCustomer, List<Customer> customers, int i) {
+        int earnedCoins = 0;
         for (int c = 0; c < foodInventory.size(); c++) {
             String foodNameInInventory =foodInventory.get(c).getName();
 
@@ -108,6 +141,8 @@ public class Utility {
                 if (foodAmountInInventory >= foodAmountCustomerWants) {
                     System.out.println("\n serving customer ......");
                     foodInventory.get(c).setQuantity(foodAmountInInventory-foodAmountCustomerWants);
+                    earnedCoins = foodAmountCustomerWants * 2;
+                    System.out.println("\nYou have earned " + earnedCoins + " coins!");
                     System.out.println("\n You have " + foodInventory.get(c).getQuantity() + " " + foodNameInInventory + " left in your inventory");
                 }
                 else {
@@ -118,7 +153,8 @@ public class Utility {
         }
 
         if (counter == foodInventory.size() ) {
-            System.out.println("You don't have this dish within your food inventory, go make some.");
-        } 
+            System.out.println("You don't have this dish within your food inventory.");
+        }
+        return earnedCoins; 
     }
 }
