@@ -16,7 +16,6 @@ public class Main {
 
     public static void showOptionMenu() {
         System.out.println("""
-            
                 ╔══════════════════════════════════════╗
                 ║             Café Manager             ║
                 ╟──────────────────────────────────────╢
@@ -105,25 +104,26 @@ public class Main {
         else return true;
     }
 
+
+
     //method for option 2
     public static void showInventory(int coins) {
         boolean valid = true;
         while (valid){
             System.out.println("""
-                                ╔══════════════════════════════════════╗
-                                ║              Inventory               ║
-                                ╟──────────────────────────────────────╢
-                                ║                                      ║
-                                ║    1) See dishes         🍽️           ║         
-                                ║    2) ingredients    🧺              ║
-                                ║    3) See your points    ✨          ║
-                                ║    4) Back to main menu              ║
-                                ║                                      ║
-                                ╚══════════════════════════════════════╝
-                                """);
+                ╔══════════════════════════════════════╗
+                ║              Inventory               ║
+                ╟──────────────────────────────────────╢
+                ║                                      ║
+                ║    1) See dishes         🍽️           ║         
+                ║    2) ingredients    🧺              ║
+                ║    3) See your points    ✨          ║
+                ║    4) Back to main menu              ║
+                ║                                      ║
+                ╚══════════════════════════════════════╝
+            """);
             System.out.println("Select 1-4");
             int inventoryOption = handleIntUserInput();
-
             if (inventoryOption > 0 && inventoryOption < 5){
             
                 switch (inventoryOption) {
@@ -209,7 +209,7 @@ public class Main {
         ArrayList<String> menu = Utility.createMenu();
         for (int i = 0; i < menu.size(); i++) {
             if (menu.get(i).equals(dish)){
-                FileHandling file = new FileHandling();
+                FileHandler file = new FileHandler();
                 file.writeFileForRecipes();
                 file.readRecipesFile(dish);
                 System.out.println("\nHow many would you like to make?");
@@ -282,6 +282,7 @@ public class Main {
                         Utility.createForecast();
                         break;
                     case 2:
+                        inventoryDisplay();
                         showInventory(coins);
                         break;
                     case 3:
@@ -318,6 +319,7 @@ public class Main {
                                 continuePlaying = checkCoins(coins, username);
                         }
                 }
+                break;
             }
             else System.out.println("Please select from 1-6");
         }
@@ -356,7 +358,7 @@ public class Main {
         String username = scanner.nextLine();
         
         //greets and introduces the user to the game
-        FileHandling introfile = new FileHandling();
+        FileHandler introfile = new FileHandler();
         introfile.writeIntroductionFile(username);
         introfile.readIntroductionFile();
 

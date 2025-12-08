@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.util.HashMap;
 import java.util.List;
 
-public class FileHandling {
+public class FileHandler {
     
     public void writeIntroductionFile(String username) {
         try {

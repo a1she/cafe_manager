@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CafeGameTest {
+public class UtilityTest {
 
     @Test
     public void doesCustomerHaveDefaultIngredients(){
@@ -35,18 +35,33 @@ public class CafeGameTest {
         assertEquals(6, actual2);
         assertEquals(688, actual3);
     }
-    
+
     @Test
-    public void returnFalseGivenNegativeCoins() {
-        assertFalse(Main.checkCoins(-1, "Ashley"));
-        assertFalse(Main.checkCoins(-12000, "Ashley"));
+    public void createNewIngredientIfNotInInventory() {
+        HashMap<String, Double> ingredientCustomerHas = new HashMap<>();
+
+        Utility.createAndUpdateInventoryIngredients("Milk", ingredientCustomerHas, 12.0);
+
+        assertEquals(1, ingredientCustomerHas.size());
+        assertTrue(ingredientCustomerHas.containsKey("Milk"));
+        assertTrue(ingredientCustomerHas.containsValue(12.0));
     }
 
     @Test
-    public void returnFalseGiven20OrMoreCoins() {
-        assertFalse(Main.checkCoins(20, "Ashley"));
-        assertFalse(Main.checkCoins(21, "Ashley"));
-        assertFalse(Main.checkCoins(40000, "Ashley"));
+    public void updateAmountIfIngredientExistsInInventory() {
+        HashMap<String, Double> ingredientCustomerHas = new HashMap<>();
+        ingredientCustomerHas.put("Chocolate Milk", 2.0);
+        ingredientCustomerHas.put("Strawberry", 122.0);
+        ingredientCustomerHas.put("Pineapple", 22.0);
+
+        Utility.createAndUpdateInventoryIngredients("Chocolate Milk", ingredientCustomerHas, 3456.0);
+        Utility.createAndUpdateInventoryIngredients("Strawberry", ingredientCustomerHas, 4.0);
+        Utility.createAndUpdateInventoryIngredients("Pineapple", ingredientCustomerHas, 15.0);
+
+        assertFalse(ingredientCustomerHas.containsValue(1234.0));
+        assertTrue(ingredientCustomerHas.containsValue(3458.0));
+        assertTrue(ingredientCustomerHas.containsValue(126.0));
+        assertTrue(ingredientCustomerHas.containsValue(37.0));
     }
 
     @Test
@@ -113,7 +128,6 @@ public class CafeGameTest {
         //failure by not having enough dishes to serve customer with
         int expectedTwo = Utility.serveCustomer(0, foodInventory, "Caramel Frappe", customers , 1);
         assertEquals(0, expectedTwo);
-
     }
 
 

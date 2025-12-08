@@ -96,18 +96,20 @@ public class Utility {
 
     public static void createAndUpdateInventoryIngredients(String ingredientName, HashMap<String, Double> ingredientsCustomerHas, Double buyAmount){
         int counter =0;
+        double amount = 0;
         for (String i : ingredientsCustomerHas.keySet()) {
             if (ingredientName.equals(i)){
-                Double amount = ingredientsCustomerHas.get(i);
-                amount = amount + buyAmount;
-                ingredientsCustomerHas.remove(ingredientName);
-                ingredientsCustomerHas.put(ingredientName, amount);  
+                amount = ingredientsCustomerHas.get(i) + buyAmount;
             }
             else counter++;
         }
-
+        
         if (counter == ingredientsCustomerHas.size()) {
             ingredientsCustomerHas.put(ingredientName, buyAmount);
+        }
+        else {
+            ingredientsCustomerHas.remove(ingredientName);
+            ingredientsCustomerHas.put(ingredientName, amount);  
         }
     }
 
