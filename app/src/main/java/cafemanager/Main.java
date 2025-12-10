@@ -133,7 +133,6 @@ public class Main {
                         System.out.println("\nPress Enter to return to Inventory");
                         scanner.nextLine();
                         printMessagesForList(results);
-
                         break;
                     case 2:
                         for (String i : ingredientsCustomerHas.keySet()){
@@ -164,7 +163,6 @@ public class Main {
         for (int i = 0 ; i < ingredientSupply.size(); i++){
             System.out.println(ingredientSupply.get(i));
         }
-        //want to loop this part?
         System.out.println("\nWhat would you like to buy?\n");
         String buyOption = handleStringUserInput(scanner);
             
@@ -220,36 +218,6 @@ public class Main {
         }
     }
 
-    public static int serveChosenCustomer(int coins) {
-
-        int customerPosition = 1;
-        for (int i = 0; i < customers.size(); i++){
-            System.out.println(customerPosition + ")" + customers.get(i).printAsList());
-            customerPosition++;
-        }
-            
-        System.out.println("Choose customer from the list");
-        int chosenCustomer = handleIntUserInput(scanner);
-            
-        System.out.println(customers.get(chosenCustomer-1).toString());
-        System.out.println("Serve this customer? [Y/N]");
-        String serveOption = handleStringUserInput(scanner);
-        String foodDesiredByCustomer = customers.get(chosenCustomer-1).getItem();
-            
-        if (serveOption.equalsIgnoreCase("Y")) {
-            coins += Utility.serveCustomer(0, dishInventory, foodDesiredByCustomer, customers, chosenCustomer-1);
-        }
-            
-        if (serveOption.equalsIgnoreCase("N")) {
-            coins = coins - 5;
-            if (coins > 0){
-                System.out.println("\n5 coins have been deducted.");
-                System.out.println("\nGoing back to the options menu....\n");
-            }
-        }
-        return coins;
-    }
-
     private static int menuHandler(int chosenOption, int coins, String username) {
         boolean continuePlaying = true;
         while (continuePlaying) {
@@ -291,7 +259,7 @@ public class Main {
                                 continuePlaying = checkCoins(coins, username);
                                 break;
                             case 2:
-                                coins = serveChosenCustomer(coins);
+                                //coins = serveChosenCustomer(coins);
                                 continuePlaying = checkCoins(coins, username);
                         }
                 }

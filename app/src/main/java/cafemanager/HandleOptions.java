@@ -1,4 +1,6 @@
 package cafemanager;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -6,7 +8,8 @@ import java.util.Scanner;
 
 public class HandleOptions implements CustomerDecisionMaker {
 
-    public static List<FoodInventory> dishInventory = Utility.createDishInventory();
+    private static List<FoodInventory> dishInventory = Utility.createDishInventory();
+    private static HashMap<String, Double> ingredientsCustomerHas = Utility.createIngredientsCustomerHas();
 
     public static Scanner scanner;
 
@@ -26,6 +29,34 @@ public class HandleOptions implements CustomerDecisionMaker {
         System.out.println("Choose customer from the list");
         int chosenCustomer = handleIntUserInput(scanner);
         return chosenCustomer;
+    }
+
+    @Override
+    public String dishCustomerWantsToMake() {
+        System.out.println("\nWhat would you like to make?");
+        String dish = handleStringUserInput(scanner);
+        return dish;
+    }
+
+    @Override
+    public int dishAmountCustomerWantsToMake(){
+        System.out.println("\nHow many would you like to make?");
+        int itemNumber = handleIntUserInput(scanner);
+        return itemNumber;
+    }
+
+    public static void makeFood(CustomerDecisionMaker customerDecision) {
+        ArrayList<String> menu = Utility.createMenu();
+        String dish = customerDecision.dishCustomerWantsToMake();
+        for (int i = 0; i < menu.size(); i++) {
+            if (menu.get(i).equals(dish)){
+                FileHandler file = new FileHandler();
+                file.writeFileForRecipes();
+                file.readRecipesFile(dish);
+                int itemNumber = customerDecision.dishAmountCustomerWantsToMake();
+                file.checkIfItemCanBeCreated(dish,itemNumber,ingredientsCustomerHas, dishInventory);
+            }
+        }
     }
 
     public int serveNextCustomer(int coins, List<Customer> customers, CustomerDecisionMaker customerDecision) {
