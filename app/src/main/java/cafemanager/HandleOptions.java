@@ -1,77 +1,103 @@
 package cafemanager;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Scanner;
 
-public class HandleOptions implements CustomerDecisionMaker {
+public class HandleOptions {
 
+    public static List<Customer> customers =Utility.createCustomers();
+    public static List<Customer> customersUserHasServed = new ArrayList<>();
+    public static HandleOptions handleOptions = new HandleOptions();
     private static List<FoodInventory> dishInventory = Utility.createDishInventory();
     private static HashMap<String, Double> ingredientsCustomerHas = Utility.createIngredientsCustomerHas();
-
     public static Scanner scanner;
+    public static CustomerDecision customerDecision = new CustomerDecision();
 
-    @Override
-    public boolean shouldServeCustomer(Customer customer) {
-        System.out.println(customer.toString());
-        System.out.println("Serve this customer? (Y/N)");
-        String serveOption = handleStringUserInputForYesorNo(scanner);
-        if (serveOption.equalsIgnoreCase("Y")){
-            return true;
+    public int menuHandler(int chosenOption, int coins, String username) {
+        boolean continuePlaying = true;
+        while (continuePlaying) {
+            if (chosenOption > 0 && chosenOption < 7) {
+                switch (chosenOption) {
+                    case 1:
+                        Utility.createForecast();
+                        break;
+                    case 2:
+                        showInventory(coins);
+                        break;
+                    case 3:
+                        buyIngredients(coins);
+                        break;
+                    case 4:
+                        for (int i =0 ; i< customers.size(); i++){
+                            System.out.println("\n"+customers.get(i));
+                        }
+                        break;
+                    case 5:
+                        makeFood(customerDecision);
+                        break;
+                    case 6:
+                        
+                        System.out.println("\n Select from 1 or 2\n");
+                        int servingCustomerOption = customerDecision.handleIntUserInput(scanner);
+                        switch (servingCustomerOption) {
+                            case 1:
+                                coins = serveNextCustomer(coins, customers, customerDecision);
+                                continuePlaying = checkCoins(coins, username);
+                                break;
+                            case 2:
+                                coins = serveChosenCustomer(coins, customers, customerDecision);
+                                continuePlaying = checkCoins(coins, username);
+                        }
+                }
+                break;
+            }
+            else System.out.println("Please select from 1-6");
         }
-        else {return false;}
+        return coins;
     }
     
-    @Override
-    public int chooseCustomerToServe(){
-        System.out.println("Choose customer from the list");
-        int chosenCustomer = handleIntUserInput(scanner);
-        return chosenCustomer;
-    }
+    private static void showInventory(int coins) {
+        boolean valid = true;
+        while (valid){
+            displayInventoryOptions();
+            System.out.println("Select 1-4");
+            int inventoryOption = customerDecision.handleIntUserInput(scanner);         
 
-    @Override
-    public String dishCustomerWantsToMake() {
-        System.out.println("\nWhat would you like to make?");
-        String dish = handleStringUserInput(scanner);
-        return dish;
-    }
-
-    @Override
-    public int dishAmountCustomerWantsToMake(){
-        System.out.println("\nHow many would you like to make?");
-        int itemNumber = handleIntUserInput(scanner);
-        return itemNumber;
-    }
-
-    @Override
-    public String ingredientCustomerWantsToBuy() {
-        System.out.println("\nWhat would you like to buy?\n");
-        String purchaseOption = handleStringUserInput(scanner);
-        return purchaseOption;
-    }
-
-    @Override
-    public int ingredientAmountCustomerWantsToBuy(){
-        System.out.println("How many would you like to buy?");
-        int purchaseAmount = handleIntUserInput(scanner);
-        return purchaseAmount;
-    }
-
-    @Override
-    public boolean doesCustomerWantToBuyThis(){
-        System.out.println("Are you sure you want to buy this? Y/N\n");
-        String choice = handleStringUserInputForYesorNo(scanner);
-        if (choice.equalsIgnoreCase("Y")){
-            return true;
-        }
-        else {
-            return false;
+            if (inventoryOption > 0 && inventoryOption < 5){
+            
+                switch (inventoryOption) {
+                    case 1:
+                        for (int i = 0; i < dishInventory.size(); i++ ){
+                            System.out.println(" - Dish: " +dishInventory.get(i).getName() + ", Quantity: " + dishInventory.get(i).getQuantity());
+                        }
+                        System.out.println("\nPress Enter to return to Inventory");
+                        scanner.nextLine();
+                        break;
+                    case 2:
+                        for (String i : ingredientsCustomerHas.keySet()){
+                            System.out.println(" - Ingredient: " + i + ", Quantity: " + ingredientsCustomerHas.get(i));
+                        }
+                        System.out.println("\nPress Enter to return to Inventory");
+                        scanner.nextLine();
+                        break;
+                    case 3:
+                        System.out.println("\nYou currently have " + coins + " coins.");
+                        System.out.println("\nPress Enter to return to Inventory");
+                        scanner.nextLine();
+                        break;
+                    case 4:
+                        valid = false;
+                        break;
+                }
+            }
+            else{
+                System.out.println("\n Select a number within the specified range\n");
+            }
         }
     }
 
-    public int buyIngredients(int coins, CustomerDecisionMaker customerDecision) {
+    private static int buyIngredients(int coins) {
         List<IngredientSupply> ingredientSupply = Utility.createIngredientsCustomerCanBuyFrom();
         System.out.println("\nThese are the options you can buy from:");
         for (int i = 0 ; i < ingredientSupply.size(); i++){
@@ -116,7 +142,7 @@ public class HandleOptions implements CustomerDecisionMaker {
         return coins;
     }
 
-    public static void makeFood(CustomerDecisionMaker customerDecision) {
+    private static void makeFood(CustomerDecision customerDecision) {
         ArrayList<String> menu = Utility.createMenu();
         String dish = customerDecision.dishCustomerWantsToMake();
         for (int i = 0; i < menu.size(); i++) {
@@ -130,7 +156,7 @@ public class HandleOptions implements CustomerDecisionMaker {
         }
     }
 
-    public int serveNextCustomer(int coins, List<Customer> customers, CustomerDecisionMaker customerDecision) {
+    private static int serveNextCustomer(int coins, List<Customer> customers, CustomerDecision customerDecision) {
         for (int i = 0 ; i < customers.size(); i++){
             int counter = 0;
             if (customerDecision.shouldServeCustomer(customers.get(i))) {
@@ -149,7 +175,7 @@ public class HandleOptions implements CustomerDecisionMaker {
         return coins;
     }
 
-    public int serveChosenCustomer(int coins, List<Customer> customers, CustomerDecisionMaker customerDecision) {
+    private static int serveChosenCustomer(int coins, List<Customer> customers, CustomerDecision customerDecision) {
         int customerPosition = 1;
         for (int i = 0; i < customers.size(); i++){
             System.out.println(customerPosition + ")" + customers.get(i).printAsList());
@@ -171,39 +197,85 @@ public class HandleOptions implements CustomerDecisionMaker {
         return coins;
     }
 
-    public static int handleIntUserInput(Scanner scanner) {
-        while (true) {
-            try {
-                int userInput = scanner.nextInt();
-                scanner.nextLine();
-                return userInput;
-            } catch (InputMismatchException e) {
-                System.out.println("Enter a valid integer");
-                scanner.nextLine();
-            }     
+    public static boolean checkCoins(int coins, String username){
+        if (coins >= 20){
+            messageIfUserWins(coins, username);
+            return false;
         }
+        else if (coins < 0) {
+            messageForNegativeCoins(coins);
+            return false;
+        }
+        else return true;
     }
 
-    public static String handleStringUserInput(Scanner scanner) {
-        while (true) {
-            String userInput = scanner.nextLine();
-            String userInputWithoutWhiteSpace = userInput.replaceAll(" ", "");
-            if (userInputWithoutWhiteSpace.matches("^[a-zA-Z]*$")){
-                return userInput;
-            }
-            else {System.out.println("Enter a valid string");}
-            }
+    public static void messageForNegativeCoins(int coins) {
+        String message = """
+                    ╔══════════════════════════════════════╗
+                    ║               GAME OVER              ║
+                    ╟──────────────────────────────────────╢
+                    ║                                      ║
+                    ║  ˚₊‧꒰❀ The café is in debt… ❀꒱‧₊˚  ║
+                    ║                                      ║
+                    ║   You now have %d coins**… yikes!    ║
+                    ║  The target was 20 coins, so…        ║
+                    ║              (╥﹏╥)                  ║
+                    ║                                      ║
+                    ║     The accountant is crying…        ║
+                    ║                                      ║
+                    ╚══════════════════════════════════════╝
+                    """;
+        System.out.println(message.formatted(coins));
     }
 
-    public static String handleStringUserInputForYesorNo(Scanner scanner) {
-        while (true) {
-            String userInput = scanner.nextLine();
-            String userInputWithoutWhiteSpace = userInput.replaceAll(" ", "");
-            if (userInputWithoutWhiteSpace.equalsIgnoreCase("Y") || userInputWithoutWhiteSpace.equalsIgnoreCase("N") ){
-                return userInput;
-            }
-            else {System.out.println("Enter Y or N");}
-            }
+    public static void messageIfUserWins(int coins, String username) {
+            String message = """
+
+                    ╔══════════════════════════════════════╗
+                    ║                YOU WIN!              ║
+                    ╟──────────────────────────────────────╢
+                    ║                                      ║
+                    ║   ✧˖° Congrats, Manager %s! °˖✧      ║
+                    ║                                      ║
+                    ║   The café is thriving and cozy ★    ║
+                    ║     Customers adore your food!       ║
+                    ║                                      ║
+                    ║     ₊˚⊹🌟 Enjoy your success! 🌟⊹˚₊  ║
+                    ║                                      ║
+                    ╚══════════════════════════════════════╝
+                    """;
+            System.out.println(message.formatted(username));
+        
     }
 
+
+
+    public static void displayInventoryOptions() {
+        System.out.println("""
+                ╔══════════════════════════════════════╗
+                ║              Inventory               ║
+                ╟──────────────────────────────────────╢
+                ║                                      ║
+                ║    1) See dishes         🍽️           ║         
+                ║    2) ingredients    🧺              ║
+                ║    3) See your points    ✨          ║
+                ║    4) Back to main menu              ║
+                ║                                      ║
+                ╚══════════════════════════════════════╝
+            """);
+    }
+
+    public static void displayServingOptions(){
+        System.out.println("""
+            
+            ╔══════════════════════════════════════╗
+            ║            Customer Queue            ║
+            ╟──────────────────────────────────────╢
+            ║                                      ║
+            ║ 1) Serve next customer               ║
+            ║ 2) View queue and choose customer    ║
+            ║                                      ║
+            ╚══════════════════════════════════════╝
+        """);
+    }
 }

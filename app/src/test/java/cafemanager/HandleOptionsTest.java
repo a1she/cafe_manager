@@ -81,6 +81,7 @@ public class HandleOptionsTest {
         assertFalse(Main.checkCoins(40000, "Ashley"));
     }
 
+
     @Test
     public void returnUpdatedCoinsGivenCorrectDishAndCorrectAmount(){
 
