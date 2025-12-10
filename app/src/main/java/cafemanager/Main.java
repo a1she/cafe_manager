@@ -126,11 +126,14 @@ public class Main {
             
                 switch (inventoryOption) {
                     case 1:
+                        List<String> results = new ArrayList<>();
                         for (int i = 0; i < dishInventory.size(); i++ ){
-                            System.out.println(" - Dish: " +dishInventory.get(i).getName() + ", Quantity: " + dishInventory.get(i).getQuantity());
+                            results.add(" - Dish: " +dishInventory.get(i).getName() + ", Quantity: " + dishInventory.get(i).getQuantity());
                         }
                         System.out.println("\nPress Enter to return to Inventory");
                         scanner.nextLine();
+                        printMessagesForList(results);
+
                         break;
                     case 2:
                         for (String i : ingredientsCustomerHas.keySet()){
@@ -163,7 +166,7 @@ public class Main {
         }
         //want to loop this part?
         System.out.println("\nWhat would you like to buy?\n");
-        String buyOption = handleStringUserInput();
+        String buyOption = handleStringUserInput(scanner);
             
         int itemsNotPresentInSupply =0; 
         for (int i = 0; i < ingredientSupply.size(); i++){
@@ -178,7 +181,7 @@ public class Main {
                     int price = Utility.calculatePrice(ingredientSupply.get(i).getQuantity(), ingredientSupply.get(i).getPrice(), buyAmount);
                     System.out.println("\nYour total cost is " + price + " coins.");
                     System.out.println("Are you sure you want to buy this? Y/N\n");
-                    String choice = handleStringUserInput();
+                    String choice = handleStringUserInput(scanner);
                     
                     if (choice.equalsIgnoreCase("Y")){
                         if (coins>=price) {
@@ -203,7 +206,7 @@ public class Main {
 
     public static void makeFood() {
         System.out.println("\nWhat would you like to make?");
-        String dish = handleStringUserInput();
+        String dish = handleStringUserInput(scanner);
         ArrayList<String> menu = Utility.createMenu();
         for (int i = 0; i < menu.size(); i++) {
             if (menu.get(i).equals(dish)){
@@ -215,30 +218,6 @@ public class Main {
                 file.checkIfItemCanBeCreated(dish,itemNumber,ingredientsCustomerHas, dishInventory);
             }
         }
-    }
-
-    public static int serveNextCustomer(int coins) {
-        for (int i = 0 ; i < customers.size(); i++){
-            int counter = 0;
-            System.out.println("\n"+customers.get(i));
-            System.out.println("Serve this customer? (Y/N)");
-            String serveOption = handleStringUserInput();
-            String foodDesiredByCustomer = customers.get(i).getItem();
-            
-            if (serveOption.equalsIgnoreCase("Y")) {
-                coins += Utility.serveCustomer(counter, dishInventory, foodDesiredByCustomer, customers, i);
-            }
-            
-            if (serveOption.equalsIgnoreCase("N")) {
-                coins = coins -5;
-                if (coins > 0) {
-                    System.out.println("\n5 coins have been deducted.");
-                    System.out.println("\nGoing back to the options menu....\n");
-                }
-                break;
-            }
-        }
-        return coins;
     }
 
     public static int serveChosenCustomer(int coins) {
@@ -254,7 +233,7 @@ public class Main {
             
         System.out.println(customers.get(chosenCustomer-1).toString());
         System.out.println("Serve this customer? [Y/N]");
-        String serveOption = handleStringUserInput();
+        String serveOption = handleStringUserInput(scanner);
         String foodDesiredByCustomer = customers.get(chosenCustomer-1).getItem();
             
         if (serveOption.equalsIgnoreCase("Y")) {
@@ -271,7 +250,7 @@ public class Main {
         return coins;
     }
 
-    public static int menuHandler(int chosenOption, int coins, String username) {
+    private static int menuHandler(int chosenOption, int coins, String username) {
         boolean continuePlaying = true;
         while (continuePlaying) {
             if (chosenOption > 0 && chosenOption < 7) {
@@ -308,7 +287,7 @@ public class Main {
                         int servingCustomerOption = handleIntUserInput(scanner);
                         switch (servingCustomerOption) {
                             case 1:
-                                coins = serveNextCustomer(coins);
+                                //coins = serveNextCustomer(coins, scanner, customers);
                                 continuePlaying = checkCoins(coins, username);
                                 break;
                             case 2:
@@ -336,7 +315,7 @@ public class Main {
         }
     }
 
-    public static String handleStringUserInput() {
+    public static String handleStringUserInput(Scanner scanner) {
         while (true) {
             String userInput = scanner.nextLine();
             String userInputWithoutWhiteSpace = userInput.replaceAll(" ", "");
@@ -345,6 +324,14 @@ public class Main {
             }
             else {System.out.println("Enter a valid string");}
             }
+    }
+
+    public static void printMessages(String message){
+        System.out.println(message);
+    }
+
+    public static void printMessagesForList(List<String> message){
+        System.out.println(message);
     }
 
     public static void main(String[] args) {
@@ -362,7 +349,7 @@ public class Main {
         System.out.println("\nThe options bellow will allow you to navigate to different sections of the game, good luck " +username);
 
         System.out.println("Would you like to continue? Y/N");
-        String proceed = handleStringUserInput();
+        String proceed = handleStringUserInput(scanner);
     
         while (proceed.equalsIgnoreCase("Y")) {
             if (coins >= 0) {
@@ -371,7 +358,7 @@ public class Main {
                 coins = menuHandler(chosenOption, coins,username);
                 if (coins >= 0) {
                     System.out.println("\nWould you like to continue? Y/N");
-                    proceed = handleStringUserInput();
+                    proceed = handleStringUserInput(scanner);
                 }
                 else {
                     break;
