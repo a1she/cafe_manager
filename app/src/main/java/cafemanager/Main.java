@@ -104,10 +104,8 @@ public class Main {
         else return true;
     }
 
-
-
     //method for option 2
-    public static void showInventory(int coins) {
+    public static void showInventory(int coins, Scanner scanner) {
         boolean valid = true;
         while (valid){
             System.out.println("""
@@ -123,7 +121,7 @@ public class Main {
                 ╚══════════════════════════════════════╝
             """);
             System.out.println("Select 1-4");
-            int inventoryOption = handleIntUserInput();
+            int inventoryOption = handleIntUserInput(scanner);
             if (inventoryOption > 0 && inventoryOption < 5){
             
                 switch (inventoryOption) {
@@ -173,7 +171,7 @@ public class Main {
                 
                 System.out.println("\nYou can buy " + ingredientSupply.get(i).getQuantity() + " for " + ingredientSupply.get(i).getPrice() + " coins.");
                 System.out.println("How many would you like to buy?");
-                int buyAmount = handleIntUserInput();
+                int buyAmount = handleIntUserInput(scanner);
                 
                 if (ingredientSupply.get(i).getQuantity() >= buyAmount) {
                     System.out.println("\nCalculating Cost...\n"); 
@@ -213,7 +211,7 @@ public class Main {
                 file.writeFileForRecipes();
                 file.readRecipesFile(dish);
                 System.out.println("\nHow many would you like to make?");
-                int itemNumber = handleIntUserInput();
+                int itemNumber = handleIntUserInput(scanner);
                 file.checkIfItemCanBeCreated(dish,itemNumber,ingredientsCustomerHas, dishInventory);
             }
         }
@@ -252,7 +250,7 @@ public class Main {
         }
             
         System.out.println("Choose customer from the list");
-        int chosenCustomer = handleIntUserInput();
+        int chosenCustomer = handleIntUserInput(scanner);
             
         System.out.println(customers.get(chosenCustomer-1).toString());
         System.out.println("Serve this customer? [Y/N]");
@@ -282,8 +280,7 @@ public class Main {
                         Utility.createForecast();
                         break;
                     case 2:
-                        inventoryDisplay();
-                        showInventory(coins);
+                        showInventory(coins, scanner);
                         break;
                     case 3:
                         buyIngredients(coins);
@@ -308,7 +305,7 @@ public class Main {
                                 ╚══════════════════════════════════════╝
                                 """);
                         System.out.println("\n Select from 1 or 2\n");
-                        int servingCustomerOption = handleIntUserInput();
+                        int servingCustomerOption = handleIntUserInput(scanner);
                         switch (servingCustomerOption) {
                             case 1:
                                 coins = serveNextCustomer(coins);
@@ -326,7 +323,7 @@ public class Main {
         return coins;
     }
 
-    public static int handleIntUserInput() {
+    public static int handleIntUserInput(Scanner scanner) {
         while (true) {
             try {
                 int userInput = scanner.nextInt();
@@ -370,7 +367,7 @@ public class Main {
         while (proceed.equalsIgnoreCase("Y")) {
             if (coins >= 0) {
                 showOptionMenu();
-                int chosenOption = handleIntUserInput();
+                int chosenOption = handleIntUserInput(scanner);
                 coins = menuHandler(chosenOption, coins,username);
                 if (coins >= 0) {
                     System.out.println("\nWould you like to continue? Y/N");

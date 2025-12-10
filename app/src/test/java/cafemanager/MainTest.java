@@ -23,7 +23,8 @@ public class MainTest {
 
     @Test
     public void showDishesGivenUserInputOfOneForDisplayingInventory(){
-        Scanner scanner = new Scanner(System.in);
+        
+        
         
 
     }
