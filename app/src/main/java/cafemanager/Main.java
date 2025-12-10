@@ -6,7 +6,7 @@ public class Main {
 
     public static Scanner scanner = new Scanner(System.in); 
     public static CustomerDecision customerDecision = new CustomerDecision();
-    public static HandleOptions handleOptions = new HandleOptions();
+    public static HandleOptions handleOptions = new HandleOptions(new CustomerDecision());
 
 
     public static void showOptionMenu() {
@@ -63,16 +63,16 @@ public class Main {
         System.out.println("\nThe options bellow will allow you to navigate to different sections of the game, good luck " +username);
 
         System.out.println("Would you like to continue? Y/N");
-        String proceed = customerDecision.handleStringUserInput(scanner);
+        String proceed = Utility.handleStringUserInput(scanner);
     
         while (proceed.equalsIgnoreCase("Y")) {
             if (coins >= 0) {
                 showOptionMenu();
-                int chosenOption = customerDecision.handleIntUserInput(scanner);
+                int chosenOption = Utility.handleIntUserInput(scanner);
                 coins = handleOptions.menuHandler(chosenOption, coins,username);
                 if (coins >= 0) {
                     System.out.println("\nWould you like to continue? Y/N");
-                    proceed = customerDecision.handleStringUserInputForYesorNo(scanner);
+                    proceed = Utility.handleStringUserInputForYesorNo(scanner);
                 }
                 else {
                     break;

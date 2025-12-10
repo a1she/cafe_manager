@@ -2,7 +2,9 @@ package cafemanager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
 
 public class Utility {
     public static ArrayList<String> createMenu() {
@@ -156,5 +158,40 @@ public class Utility {
             System.out.println("You don't have this dish within your food inventory.");
         }
         return earnedCoins; 
+    }
+
+    public static int handleIntUserInput(Scanner scanner) {
+        while (true) {
+            try {
+                int userInput = scanner.nextInt();
+                scanner.nextLine();
+                return userInput;
+            } catch (InputMismatchException e) {
+                System.out.println("Enter a valid integer");
+                scanner.nextLine();
+            }     
+        }
+    }
+
+    public static String handleStringUserInput(Scanner scanner) {
+        while (true) {
+            String userInput = scanner.nextLine();
+            String userInputWithoutWhiteSpace = userInput.replaceAll(" ", "");
+            if (userInputWithoutWhiteSpace.matches("^[a-zA-Z]*$")){
+                return userInput;
+            }
+            else {System.out.println("Enter a valid string");}
+            }
+    }
+
+    public static String handleStringUserInputForYesorNo(Scanner scanner) {
+        while (true) {
+            String userInput = scanner.nextLine();
+            String userInputWithoutWhiteSpace = userInput.replaceAll(" ", "");
+            if (userInputWithoutWhiteSpace.equalsIgnoreCase("Y") || userInputWithoutWhiteSpace.equalsIgnoreCase("N") ){
+                return userInput;
+            }
+            else {System.out.println("Enter Y or N");}
+            }
     }
 }

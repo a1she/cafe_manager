@@ -8,11 +8,14 @@ public class HandleOptions {
 
     public static List<Customer> customers =Utility.createCustomers();
     public static List<Customer> customersUserHasServed = new ArrayList<>();
-    public static HandleOptions handleOptions = new HandleOptions();
     private static List<FoodInventory> dishInventory = Utility.createDishInventory();
     private static HashMap<String, Double> ingredientsCustomerHas = Utility.createIngredientsCustomerHas();
     public static Scanner scanner;
-    public static CustomerDecision customerDecision = new CustomerDecision();
+    public CustomerDecisionMaker customerDecision;
+
+    public HandleOptions( CustomerDecisionMaker customerDecision) {
+        this.customerDecision = customerDecision;
+    }
 
     public int menuHandler(int chosenOption, int coins, String username) {
         boolean continuePlaying = true;
@@ -26,7 +29,7 @@ public class HandleOptions {
                         showInventory(coins);
                         break;
                     case 3:
-                        buyIngredients(coins);
+                        buyIngredients(coins, customerDecision);
                         break;
                     case 4:
                         for (int i =0 ; i< customers.size(); i++){
@@ -39,7 +42,7 @@ public class HandleOptions {
                     case 6:
                         
                         System.out.println("\n Select from 1 or 2\n");
-                        int servingCustomerOption = customerDecision.handleIntUserInput(scanner);
+                        int servingCustomerOption = Utility.handleIntUserInput(scanner);
                         switch (servingCustomerOption) {
                             case 1:
                                 coins = serveNextCustomer(coins, customers, customerDecision);
@@ -57,12 +60,12 @@ public class HandleOptions {
         return coins;
     }
     
-    private static void showInventory(int coins) {
+    public static void showInventory(int coins) {
         boolean valid = true;
         while (valid){
             displayInventoryOptions();
             System.out.println("Select 1-4");
-            int inventoryOption = customerDecision.handleIntUserInput(scanner);         
+            int inventoryOption = Utility.handleIntUserInput(scanner);         
 
             if (inventoryOption > 0 && inventoryOption < 5){
             
@@ -97,7 +100,7 @@ public class HandleOptions {
         }
     }
 
-    private int buyIngredients(int coins) {
+    public int buyIngredients(int coins, CustomerDecisionMaker customerDecision ) {
         List<IngredientSupply> ingredientSupply = Utility.createIngredientsCustomerCanBuyFrom();
         System.out.println("\nThese are the options you can buy from:");
         for (int i = 0 ; i < ingredientSupply.size(); i++){
@@ -142,7 +145,7 @@ public class HandleOptions {
         return coins;
     }
 
-    private static void makeFood(CustomerDecision customerDecision) {
+    public static void makeFood(CustomerDecisionMaker customerDecision) {
         ArrayList<String> menu = Utility.createMenu();
         String dish = customerDecision.dishCustomerWantsToMake();
         for (int i = 0; i < menu.size(); i++) {
@@ -156,7 +159,7 @@ public class HandleOptions {
         }
     }
 
-    private int serveNextCustomer(int coins, List<Customer> customers, CustomerDecision customerDecision) {
+    private int serveNextCustomer(int coins, List<Customer> customers, CustomerDecisionMaker customerDecision) {
         for (int i = 0 ; i < customers.size(); i++){
             int counter = 0;
             if (customerDecision.shouldServeCustomer(customers.get(i))) {
@@ -175,7 +178,7 @@ public class HandleOptions {
         return coins;
     }
 
-    private int serveChosenCustomer(int coins, List<Customer> customers, CustomerDecision customerDecision) {
+    public int serveChosenCustomer(int coins, List<Customer> customers, CustomerDecisionMaker customerDecision) {
         int customerPosition = 1;
         for (int i = 0; i < customers.size(); i++){
             System.out.println(customerPosition + ")" + customers.get(i).printAsList());

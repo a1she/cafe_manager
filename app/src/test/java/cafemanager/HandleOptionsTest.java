@@ -70,26 +70,25 @@ public class HandleOptionsTest {
 
     @Test
     public void returnFalseGivenNegativeCoins() {
-        HandleOptions mockHandleOptions = new HandleOptions();
-        assertFalse(mockHandleOptions.checkCoins(-1, "Ashley"));
-        assertFalse(mockHandleOptions.checkCoins(-12000, "Ashley"));
+        assertFalse(HandleOptions.checkCoins(-1, "Ashley"));
+        assertFalse(HandleOptions.checkCoins(-12000, "Ashley"));
     }
 
     @Test
     public void returnFalseGiven20OrMoreCoins() {
-        assertFalse(Main.checkCoins(20, "Ashley"));
-        assertFalse(Main.checkCoins(21, "Ashley"));
-        assertFalse(Main.checkCoins(40000, "Ashley"));
+        assertFalse(HandleOptions.checkCoins(20, "Ashley"));
+        assertFalse(HandleOptions.checkCoins(21, "Ashley"));
+        assertFalse(HandleOptions.checkCoins(40000, "Ashley"));
     }
 
 
     @Test
     public void returnUpdatedCoinsGivenCorrectDishAndCorrectAmount(){
-
         boolean [] answers = {true};
         MockCustomerDecisions mockCustomerDecisions = new MockCustomerDecisions( answers);
 
-        HandleOptions mockHandleOptions = new HandleOptions();
+
+        HandleOptions mockHandleOptions = new HandleOptions(mockCustomerDecisions);
         int actual = mockHandleOptions.buyIngredients(10, mockCustomerDecisions);
 
         assertEquals(4, actual);
@@ -101,7 +100,7 @@ public class HandleOptionsTest {
         boolean [] answers = {false};
         MockCustomerDecisions mockCustomerDecisions = new MockCustomerDecisions( answers);
 
-        HandleOptions mockHandleOptions = new HandleOptions();
+        HandleOptions mockHandleOptions = new HandleOptions(mockCustomerDecisions);
         int actual = mockHandleOptions.buyIngredients(10, mockCustomerDecisions);
 
         assertEquals(10, actual);
