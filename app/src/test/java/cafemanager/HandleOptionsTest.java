@@ -1,13 +1,10 @@
 package cafemanager;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,6 +29,29 @@ public class HandleOptionsTest {
 
         public int chooseCustomerToServe(){
             return 2;
+        }
+
+        public String dishCustomerWantsToMake(){
+            return "Hot Chocolate";
+        }
+        public int dishAmountCustomerWantsToMake() {
+            return 2;
+        }
+
+        public String ingredientCustomerWantsToBuy() {
+            return "Coffe";
+        }
+
+        public int ingredientAmountCustomerWantsToBuy(){
+            return 3;
+        }
+
+        public boolean doesCustomerWantToBuyThis(){
+            boolean result = answers[index];
+            if (index < answers.length){
+                index++;
+            }
+            return result;
         }
     }
 
@@ -61,21 +81,31 @@ public class HandleOptionsTest {
         assertFalse(Main.checkCoins(40000, "Ashley"));
     }
 
-    // @Test
-    // public void showDishesGivenUserInputOfOneForDisplayingInventory(){
-    //     //Main mockMain = new Main();
+    @Test
+    public void returnUpdatedCoinsGivenCorrectDishAndCorrectAmount(){
 
-    //     create fake scanner input for function
-    //     String mockInput = "1/n";
-    //     ByteArrayInputStream inputStream = new ByteArrayInputStream(mockInput.getBytes()); 
-    //     Scanner mockScanner = new Scanner(inputStream); 
+        boolean [] answers = {true};
+        MockCustomerDecisions mockCustomerDecisions = new MockCustomerDecisions( answers);
 
-    //     Main.showInventory(0, mockScanner);
-        
-        
-        
+        HandleOptions mockHandleOptions = new HandleOptions();
+        int actual = mockHandleOptions.buyIngredients(10, mockCustomerDecisions);
 
-    // }
+        assertEquals(4, actual);
+    }
+
+    @Test
+    public void returnCoinsGivenUserDoesNotWantToBuyItem(){
+
+        boolean [] answers = {false};
+        MockCustomerDecisions mockCustomerDecisions = new MockCustomerDecisions( answers);
+
+        HandleOptions mockHandleOptions = new HandleOptions();
+        int actual = mockHandleOptions.buyIngredients(10, mockCustomerDecisions);
+
+        assertEquals(10, actual);
+    }
+
+
 
     @Test
     public void returnNegativeFiveAndBreakGivenUserRefusesToServeCustomer(){
@@ -169,8 +199,6 @@ public class HandleOptionsTest {
 
     //TODO:test make food()
 
-    @Test
-    public void 
 
 
 }

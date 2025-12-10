@@ -6,5 +6,8 @@ public interface CustomerDecisionMaker {
     int chooseCustomerToServe();
     String dishCustomerWantsToMake();
     int dishAmountCustomerWantsToMake();
+    String ingredientCustomerWantsToBuy();
+    int ingredientAmountCustomerWantsToBuy();
+    boolean doesCustomerWantToBuyThis();
 
 }
