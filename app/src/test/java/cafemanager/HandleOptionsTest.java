@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class HandleOptionsTest {
@@ -28,6 +29,23 @@ public class HandleOptionsTest {
             }
             return result;
         }
+
+        public int chooseCustomerToServe(){
+            return 2;
+        }
+    }
+
+    @BeforeEach
+    public void setUp(){
+
+        // create Dish inventory :
+        List<FoodInventory> foodInventory = new ArrayList<>();
+        foodInventory.add(new FoodInventory("Hot Chocolate", 2));
+        foodInventory.add(new FoodInventory("Chocolate Croissant", 2));
+        foodInventory.add(new FoodInventory("Brownie", 2));
+        foodInventory.add(new FoodInventory("Latte", 2));
+        foodInventory.add(new FoodInventory("Cheese Toastie", 2));
+
     }
 
     @Test
@@ -112,6 +130,42 @@ public class HandleOptionsTest {
         //breaks out of the loop when serveCustomer() = false, therefore last true is ignored
         assertEquals(1, actual);
     }
-    
+
+    @Test
+    public void returnUpdatedCoinsGivenUserHasServedTheirChosenCustomer(){
+        List<Customer> mockedCustomers = new ArrayList<>();
+        mockedCustomers.add(new Customer("Benjamin", "Brownie", 1));
+        mockedCustomers.add(new Customer("Tommy", "Hot Chocolate", 2));
+        mockedCustomers.add(new Customer("Lily", "Cheese Toastie", 2));
+        mockedCustomers.add(new Customer("Tim", "Brownie", 1));
+
+        //when creating a mock, predefined the chosen customer as the 2nd one in the list
+        boolean [] answers = {true};
+        MockCustomerDecisions mockCustomerDecisions = new MockCustomerDecisions( answers);
+
+        HandleOptions mockHandleOptions = new HandleOptions();
+        int actual = mockHandleOptions.serveChosenCustomer(0, mockedCustomers, mockCustomerDecisions);
+
+        assertEquals(4, actual);
+    }
+
+    @Test
+    public void returnNegative5GivenUserHasDecidedNotToServeChosenCustomer(){
+        List<Customer> mockedCustomers = new ArrayList<>();
+        mockedCustomers.add(new Customer("Benjamin", "Brownie", 1));
+        mockedCustomers.add(new Customer("Tommy", "Hot Chocolate", 2));
+        mockedCustomers.add(new Customer("Lily", "Cheese Toastie", 2));
+        mockedCustomers.add(new Customer("Tim", "Brownie", 1));
+
+        //when creating the mock decision maker, predefined the chosen customer as the 2nd one in the list
+        boolean [] answers = {false};
+        MockCustomerDecisions mockCustomerDecisions = new MockCustomerDecisions( answers);
+
+        HandleOptions mockHandleOptions = new HandleOptions();
+        int actual = mockHandleOptions.serveChosenCustomer(0, mockedCustomers, mockCustomerDecisions);
+
+        assertEquals(-5, actual);
+    }
+
 
 }
