@@ -70,8 +70,9 @@ public class HandleOptionsTest {
 
     @Test
     public void returnFalseGivenNegativeCoins() {
-        assertFalse(Main.checkCoins(-1, "Ashley"));
-        assertFalse(Main.checkCoins(-12000, "Ashley"));
+        HandleOptions mockHandleOptions = new HandleOptions();
+        assertFalse(mockHandleOptions.checkCoins(-1, "Ashley"));
+        assertFalse(mockHandleOptions.checkCoins(-12000, "Ashley"));
     }
 
     @Test

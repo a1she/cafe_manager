@@ -97,7 +97,7 @@ public class HandleOptions {
         }
     }
 
-    private static int buyIngredients(int coins) {
+    private int buyIngredients(int coins) {
         List<IngredientSupply> ingredientSupply = Utility.createIngredientsCustomerCanBuyFrom();
         System.out.println("\nThese are the options you can buy from:");
         for (int i = 0 ; i < ingredientSupply.size(); i++){
@@ -156,7 +156,7 @@ public class HandleOptions {
         }
     }
 
-    private static int serveNextCustomer(int coins, List<Customer> customers, CustomerDecision customerDecision) {
+    private int serveNextCustomer(int coins, List<Customer> customers, CustomerDecision customerDecision) {
         for (int i = 0 ; i < customers.size(); i++){
             int counter = 0;
             if (customerDecision.shouldServeCustomer(customers.get(i))) {
@@ -175,7 +175,7 @@ public class HandleOptions {
         return coins;
     }
 
-    private static int serveChosenCustomer(int coins, List<Customer> customers, CustomerDecision customerDecision) {
+    private int serveChosenCustomer(int coins, List<Customer> customers, CustomerDecision customerDecision) {
         int customerPosition = 1;
         for (int i = 0; i < customers.size(); i++){
             System.out.println(customerPosition + ")" + customers.get(i).printAsList());
