@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class CustomerDecision implements CustomerDecisionMaker {
 
-    private Scanner scanner;
+    private Scanner scanner = new Scanner(System.in);
 
     public boolean shouldServeCustomer(Customer customer) {
         System.out.println(customer.toString());

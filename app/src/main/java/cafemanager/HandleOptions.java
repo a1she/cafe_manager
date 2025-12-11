@@ -12,7 +12,7 @@ public class HandleOptions {
     public static List<Customer> customersUserHasServed = new ArrayList<>();
     private List<FoodInventory> dishInventory = Utility.createDishInventory();
     private HashMap<String, Double> ingredientsCustomerHas = Utility.createIngredientsCustomerHas();
-    public static Scanner scanner;
+    public static Scanner scanner = new Scanner(System.in);
     public CustomerDecisionMaker customerDecision;
     public int coins;
 
@@ -48,7 +48,7 @@ public class HandleOptions {
                         makeFood(customerDecision);
                         break;
                     case 6:
-                        
+                        displayServingOptions();
                         System.out.println("\n Select from 1 or 2\n");
                         int servingCustomerOption = Utility.handleIntUserInput(scanner);
                         switch (servingCustomerOption) {
@@ -119,12 +119,12 @@ public class HandleOptions {
 
         String purchaseOption = customerDecision.ingredientCustomerWantsToBuy();
         int itemsNotPresentInSupply =0; 
-        int purchaseAmount = customerDecision.ingredientAmountCustomerWantsToBuy();
-
+        
         for (int i = 0; i < ingredientSupply.size(); i++){
             if (ingredientSupply.get(i).getName().equals(purchaseOption)) {
-
+                
                 System.out.println("\nYou can buy " + ingredientSupply.get(i).getQuantity() + " for " + ingredientSupply.get(i).getPrice() + " coins.");
+                int purchaseAmount = customerDecision.ingredientAmountCustomerWantsToBuy();
                 
                 if (ingredientSupply.get(i).getQuantity() >= purchaseAmount) {
 
