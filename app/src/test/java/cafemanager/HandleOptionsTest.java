@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class HandleOptionsTest {
@@ -55,19 +55,6 @@ public class HandleOptionsTest {
         }
     }
 
-    @BeforeEach
-    public void setUp(){
-
-        // create Dish inventory :
-        List<FoodInventory> foodInventory = new ArrayList<>();
-        foodInventory.add(new FoodInventory("Hot Chocolate", 2));
-        foodInventory.add(new FoodInventory("Chocolate Croissant", 2));
-        foodInventory.add(new FoodInventory("Brownie", 2));
-        foodInventory.add(new FoodInventory("Latte", 2));
-        foodInventory.add(new FoodInventory("Cheese Toastie", 2));
-
-    }
-
     @Test
     public void returnFalseGivenNegativeCoins() {
         assertFalse(HandleOptions.checkCoins(-1, "Ashley"));
@@ -87,10 +74,18 @@ public class HandleOptionsTest {
         boolean [] answers = {true};
         MockCustomerDecisions mockCustomerDecisions = new MockCustomerDecisions( answers);
 
+        List<FoodInventory> foodInventory = new ArrayList<>();
+        foodInventory.add(new FoodInventory("Hot Chocolate", 2));
 
-        HandleOptions mockHandleOptions = new HandleOptions(mockCustomerDecisions);
+        List<Customer> customers = new ArrayList<>();
+        customers.add(new Customer("Alex", "Hot Chocolate", 2));
+
+
+        HashMap<String, Double> ingredientsCustomerHas  = new HashMap<String, Double>();
+        ingredientsCustomerHas.put("Cheese", 4.0);
+
+        HandleOptions mockHandleOptions = new HandleOptions(mockCustomerDecisions, 0, foodInventory, customers,ingredientsCustomerHas);
         int actual = mockHandleOptions.buyIngredients(10, mockCustomerDecisions);
-
         assertEquals(4, actual);
     }
 
@@ -100,24 +95,39 @@ public class HandleOptionsTest {
         boolean [] answers = {false};
         MockCustomerDecisions mockCustomerDecisions = new MockCustomerDecisions( answers);
 
-        HandleOptions mockHandleOptions = new HandleOptions(mockCustomerDecisions);
+        List<FoodInventory> foodInventory = new ArrayList<>();
+        foodInventory.add(new FoodInventory("Hot Chocolate", 2));
+
+        List<Customer> customers = new ArrayList<>();
+        customers.add(new Customer("Alex", "Hot Chocolate", 2));
+
+
+        HashMap<String, Double> ingredientsCustomerHas  = new HashMap<String, Double>();
+        ingredientsCustomerHas.put("Cheese", 4.0);
+
+        HandleOptions mockHandleOptions = new HandleOptions(mockCustomerDecisions, 0, foodInventory, customers,ingredientsCustomerHas);
         int actual = mockHandleOptions.buyIngredients(10, mockCustomerDecisions);
 
         assertEquals(10, actual);
     }
 
-
-
     @Test
     public void returnNegativeFiveAndBreakGivenUserRefusesToServeCustomer(){
+        
+        boolean [] answers = {false, false};
+        MockCustomerDecisions mockCustomerDecisions = new MockCustomerDecisions( answers);
+        
+        List<FoodInventory> foodInventory = new ArrayList<>();
+        foodInventory.add(new FoodInventory("Hot Chocolate", 2));
+        
         List<Customer> customers = new ArrayList<>();
         customers.add(new Customer("Benjamin", "Brownie", 2));
         customers.add(new Customer("Tommy", "Brownie", 6));
 
-        boolean [] answers = {false, false};
-        MockCustomerDecisions mockCustomerDecisions = new MockCustomerDecisions( answers);
+        HashMap<String, Double> ingredientsCustomerHas  = new HashMap<String, Double>();
+        ingredientsCustomerHas.put("Cheese", 4.0);
 
-        HandleOptions mockHandleOptions = new HandleOptions();
+        HandleOptions mockHandleOptions = new HandleOptions(mockCustomerDecisions, 0, foodInventory, customers,ingredientsCustomerHas);
         int actualResultForFalse = mockHandleOptions.serveNextCustomer(0, customers, mockCustomerDecisions);
 
         //since you break out of the loop, the 2nd user decision is ignored
@@ -136,7 +146,15 @@ public class HandleOptionsTest {
         boolean [] answers = {true, true, true, true};
         MockCustomerDecisions mockCustomerDecisions = new MockCustomerDecisions( answers);
 
-        HandleOptions mockHandleOptions = new HandleOptions();
+        List<FoodInventory> foodInventory = new ArrayList<>();
+        foodInventory.add(new FoodInventory("Brownie", 2));
+        foodInventory.add(new FoodInventory("Hot Chocolate", 2));
+        foodInventory.add(new FoodInventory("Cheese Toastie", 2));
+
+        HashMap<String, Double> ingredientsCustomerHas  = new HashMap<String, Double>();
+        ingredientsCustomerHas.put("Cheese", 4.0);
+
+        HandleOptions mockHandleOptions = new HandleOptions(mockCustomerDecisions, 0, foodInventory, customers,ingredientsCustomerHas);
         int actual = mockHandleOptions.serveNextCustomer(0, customers, mockCustomerDecisions);
 
         
@@ -155,7 +173,15 @@ public class HandleOptionsTest {
         boolean [] answers = {true, true, false, true};
         MockCustomerDecisions mockCustomerDecisions = new MockCustomerDecisions( answers);
 
-        HandleOptions mockHandleOptions = new HandleOptions();
+        List<FoodInventory> foodInventory = new ArrayList<>();
+        foodInventory.add(new FoodInventory("Brownie", 2));
+        foodInventory.add(new FoodInventory("Hot Chocolate", 2));
+        foodInventory.add(new FoodInventory("Cheese Toastie", 2));
+
+        HashMap<String, Double> ingredientsCustomerHas  = new HashMap<String, Double>();
+        ingredientsCustomerHas.put("Cheese", 4.0);
+
+        HandleOptions mockHandleOptions = new HandleOptions(mockCustomerDecisions, 0, foodInventory, customers,ingredientsCustomerHas);
         int actual = mockHandleOptions.serveNextCustomer(0, customers, mockCustomerDecisions);
 
         //breaks out of the loop when serveCustomer() = false, therefore last true is ignored
@@ -172,9 +198,19 @@ public class HandleOptionsTest {
 
         //when creating a mock, predefined the chosen customer as the 2nd one in the list
         boolean [] answers = {true};
-        MockCustomerDecisions mockCustomerDecisions = new MockCustomerDecisions( answers);
+        MockCustomerDecisions mockCustomerDecisions = new MockCustomerDecisions(answers);
 
-        HandleOptions mockHandleOptions = new HandleOptions();
+        List<FoodInventory> foodInventory = new ArrayList<>();
+        foodInventory.add(new FoodInventory("Hot Chocolate", 2));
+
+        List<Customer> customers = new ArrayList<>();
+        customers.add(new Customer("Alex", "Hot Chocolate", 2));
+
+
+        HashMap<String, Double> ingredientsCustomerHas  = new HashMap<String, Double>();
+        ingredientsCustomerHas.put("Cheese", 4.0);
+
+        HandleOptions mockHandleOptions = new HandleOptions(mockCustomerDecisions, 0, foodInventory, customers,ingredientsCustomerHas);
         int actual = mockHandleOptions.serveChosenCustomer(0, mockedCustomers, mockCustomerDecisions);
 
         assertEquals(4, actual);
@@ -192,14 +228,20 @@ public class HandleOptionsTest {
         boolean [] answers = {false};
         MockCustomerDecisions mockCustomerDecisions = new MockCustomerDecisions( answers);
 
-        HandleOptions mockHandleOptions = new HandleOptions();
+        List<FoodInventory> foodInventory = new ArrayList<>();
+        foodInventory.add(new FoodInventory("Hot Chocolate", 2));
+
+        List<Customer> customers = new ArrayList<>();
+        customers.add(new Customer("Alex", "Hot Chocolate", 2));
+
+
+        HashMap<String, Double> ingredientsCustomerHas  = new HashMap<String, Double>();
+        ingredientsCustomerHas.put("Cheese", 4.0);
+
+        HandleOptions mockHandleOptions = new HandleOptions(mockCustomerDecisions, 0, foodInventory, customers,ingredientsCustomerHas);
         int actual = mockHandleOptions.serveChosenCustomer(0, mockedCustomers, mockCustomerDecisions);
 
         assertEquals(-5, actual);
     }
-
-    //TODO:test make food()
-
-
 
 }

@@ -6,15 +6,21 @@ import java.util.Scanner;
 
 public class HandleOptions {
 
-    public static List<Customer> customers =Utility.createCustomers();
+    public List<Customer> customers =Utility.createCustomers();
     public static List<Customer> customersUserHasServed = new ArrayList<>();
-    private static List<FoodInventory> dishInventory = Utility.createDishInventory();
-    private static HashMap<String, Double> ingredientsCustomerHas = Utility.createIngredientsCustomerHas();
+    private List<FoodInventory> dishInventory = Utility.createDishInventory();
+    private HashMap<String, Double> ingredientsCustomerHas = Utility.createIngredientsCustomerHas();
     public static Scanner scanner;
     public CustomerDecisionMaker customerDecision;
+    public int coins;
 
-    public HandleOptions( CustomerDecisionMaker customerDecision) {
+    public HandleOptions( CustomerDecisionMaker customerDecision, int coins, List<FoodInventory> dishInventory, List<Customer> customers, HashMap<String, Double> ingredientsCustomerHas ) {
         this.customerDecision = customerDecision;
+        this.coins = coins;
+        this.dishInventory =dishInventory;
+        this.customers = customers;
+        this.ingredientsCustomerHas = ingredientsCustomerHas;
+
     }
 
     public int menuHandler(int chosenOption, int coins, String username) {
@@ -60,7 +66,7 @@ public class HandleOptions {
         return coins;
     }
     
-    public static void showInventory(int coins) {
+    public void showInventory(int coins) {
         boolean valid = true;
         while (valid){
             displayInventoryOptions();
@@ -145,7 +151,7 @@ public class HandleOptions {
         return coins;
     }
 
-    public static void makeFood(CustomerDecisionMaker customerDecision) {
+    public void makeFood(CustomerDecisionMaker customerDecision) {
         ArrayList<String> menu = Utility.createMenu();
         String dish = customerDecision.dishCustomerWantsToMake();
         for (int i = 0; i < menu.size(); i++) {
@@ -159,7 +165,7 @@ public class HandleOptions {
         }
     }
 
-    private int serveNextCustomer(int coins, List<Customer> customers, CustomerDecisionMaker customerDecision) {
+    public int serveNextCustomer(int coins, List<Customer> customers, CustomerDecisionMaker customerDecision) {
         for (int i = 0 ; i < customers.size(); i++){
             int counter = 0;
             if (customerDecision.shouldServeCustomer(customers.get(i))) {

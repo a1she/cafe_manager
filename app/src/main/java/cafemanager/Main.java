@@ -6,7 +6,7 @@ public class Main {
 
     public static Scanner scanner = new Scanner(System.in); 
     public static CustomerDecision customerDecision = new CustomerDecision();
-    public static HandleOptions handleOptions = new HandleOptions(new CustomerDecision());
+    public static HandleOptions handleOptions = new HandleOptions(new CustomerDecision(), 0, Utility.createDishInventory(),Utility.createCustomers(), Utility.createIngredientsCustomerHas());
 
 
     public static void showOptionMenu() {
