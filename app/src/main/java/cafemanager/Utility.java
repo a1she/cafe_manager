@@ -161,7 +161,7 @@ public class Utility {
             else counter++;
         }
 
-        if (counter == foodInventory.size() ) {
+        if (counter == foodInventory.size()) {
             System.out.println("You don't have this dish within your food inventory.");
         }
         return earnedCoins; 
@@ -190,7 +190,7 @@ public class Utility {
                 return userInput;
             }
             else {System.out.println("Enter a valid string");}
-            }
+        }
     }
 
     //validation function to ensure user inputs Y or N
@@ -202,6 +202,6 @@ public class Utility {
                 return userInput;
             }
             else {System.out.println("Enter Y or N");}
-            }
+        }
     }
 }

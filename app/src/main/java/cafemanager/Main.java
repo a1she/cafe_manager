@@ -80,6 +80,7 @@ public class Main {
                 }
             }
         }
+        
         if (proceed.equalsIgnoreCase("N")) {
             checkCoinsIfUserLeavesEarly(coins, username);
         }

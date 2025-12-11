@@ -8,14 +8,15 @@ import java.util.Scanner;
 
 public class HandleOptions {
 
-    public List<Customer> customers =Utility.createCustomers();
-    public static List<Customer> customersUserHasServed = new ArrayList<>();
     private List<FoodInventory> dishInventory = Utility.createDishInventory();
     private HashMap<String, Double> ingredientsCustomerHas = Utility.createIngredientsCustomerHas();
-    public static Scanner scanner = new Scanner(System.in);
+    public List<Customer> customers =Utility.createCustomers();
     public CustomerDecisionMaker customerDecision;
     public int coins;
+    public static List<Customer> customersUserHasServed = new ArrayList<>();
+    public static Scanner scanner = new Scanner(System.in);
 
+    //constructor to create object
     public HandleOptions( CustomerDecisionMaker customerDecision, int coins, List<FoodInventory> dishInventory, List<Customer> customers, HashMap<String, Double> ingredientsCustomerHas ) {
         this.customerDecision = customerDecision;
         this.coins = coins;
@@ -77,7 +78,6 @@ public class HandleOptions {
             int inventoryOption = Utility.handleIntUserInput(scanner);         
 
             if (inventoryOption > 0 && inventoryOption < 5){
-            
                 switch (inventoryOption) {
                     case 1:
                         for (int i = 0; i < dishInventory.size(); i++ ){
@@ -113,7 +113,7 @@ public class HandleOptions {
     public int buyIngredients(int coins, CustomerDecisionMaker customerDecision ) {
         List<IngredientSupply> ingredientSupply = Utility.createIngredientsCustomerCanBuyFrom();
         System.out.println("\nThese are the options you can buy from:");
-        for (int i = 0 ; i < ingredientSupply.size(); i++){
+        for (int i = 0 ; i < ingredientSupply.size(); i++) {
             System.out.println(ingredientSupply.get(i));
         }
 

@@ -31,8 +31,8 @@ public class FileHandler {
                                 "╚══════════════════════════════════════╝\n" + //
                                 "");
             writer.write("\nYou begin with 0 points!\n" + //
-                                "Earn points by running your café — reach 20 to win!\n" + //
-                                "But be careful… if your points fall below 0, your café closes immediately.");   
+                            "Earn points by running your café — reach 20 to win!\n" + //
+                            "But be careful… if your points fall below 0, your café closes immediately.");   
             writer.close();
         } catch (Exception e) {
             System.out.println("Issue with writing the text file");
@@ -82,7 +82,6 @@ public class FileHandler {
 
 
     /* this function checks if the user has enough ingredients to create the dish item by comparing their ingredients stock with the amount needed in the text file */
-
     public void checkIfItemCanBeCreated(String dish, int number, HashMap<String, Double> Ingredients, List<FoodInventory> dishInventories) {
         File myObj = new File("recipes.txt");
         try (Scanner myReader = new Scanner(myObj)) {
@@ -113,7 +112,7 @@ public class FileHandler {
                         }
                         break;
                     } while (!data.startsWith("Recipe: ")); 
-                    
+
                     //if the user has enough ingredients then create the dish
                     // the each recipe contains 3 ingredients in the recipe text file
                     if (enoughIngredients == 3) {

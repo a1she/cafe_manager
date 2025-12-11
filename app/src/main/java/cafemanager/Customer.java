@@ -5,8 +5,8 @@ package cafemanager;
 public class Customer {
 
     private String name;
-    private String item; 
-    private int amount;
+    private String item; // can be food or drink
+    private int amount; //amount user wants
 
     public Customer(String name, String item, int amount){
         this.name=name;
