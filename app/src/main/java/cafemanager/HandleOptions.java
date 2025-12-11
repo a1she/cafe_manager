@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+/* this class handles the functionality of the game */
+
 public class HandleOptions {
 
     public List<Customer> customers =Utility.createCustomers();
@@ -20,9 +22,9 @@ public class HandleOptions {
         this.dishInventory =dishInventory;
         this.customers = customers;
         this.ingredientsCustomerHas = ingredientsCustomerHas;
-
     }
 
+    //calls the correct method function depending on the user option
     public int menuHandler(int chosenOption, int coins, String username) {
         boolean continuePlaying = true;
         while (continuePlaying) {
@@ -66,6 +68,7 @@ public class HandleOptions {
         return coins;
     }
     
+    //displays inventory such as dishes, ingredients and points
     public void showInventory(int coins) {
         boolean valid = true;
         while (valid){
@@ -106,6 +109,7 @@ public class HandleOptions {
         }
     }
 
+    // allows the user to buy ingredients from supply if the user has enough coins to buy the ingredients and then updates coins if needed
     public int buyIngredients(int coins, CustomerDecisionMaker customerDecision ) {
         List<IngredientSupply> ingredientSupply = Utility.createIngredientsCustomerCanBuyFrom();
         System.out.println("\nThese are the options you can buy from:");
@@ -151,20 +155,27 @@ public class HandleOptions {
         return coins;
     }
 
+    //checks if the dish the user wants to make exists in the menu, if it does then it checks if the user has enough ingredients to make it
     public void makeFood(CustomerDecisionMaker customerDecision) {
         ArrayList<String> menu = Utility.createMenu();
         String dish = customerDecision.dishCustomerWantsToMake();
+        int counter = 0;
         for (int i = 0; i < menu.size(); i++) {
             if (menu.get(i).equals(dish)){
                 FileHandler file = new FileHandler();
-                file.writeFileForRecipes();
                 file.readRecipesFile(dish);
                 int itemNumber = customerDecision.dishAmountCustomerWantsToMake();
                 file.checkIfItemCanBeCreated(dish,itemNumber,ingredientsCustomerHas, dishInventory);
             }
+            else counter++;
+        }
+
+        if (counter == menu.size()) {
+            System.out.println("This dish doesn't exist");
         }
     }
 
+    //loops through the list of customers, and checks if user wants to serve then. if they skip a customer then coins are reduced, if they serve then coins are increased
     public int serveNextCustomer(int coins, List<Customer> customers, CustomerDecisionMaker customerDecision) {
         for (int i = 0 ; i < customers.size(); i++){
             int counter = 0;
@@ -184,6 +195,7 @@ public class HandleOptions {
         return coins;
     }
 
+    //allows user to serve the chosen customer from a list
     public int serveChosenCustomer(int coins, List<Customer> customers, CustomerDecisionMaker customerDecision) {
         int customerPosition = 1;
         for (int i = 0; i < customers.size(); i++){
@@ -206,6 +218,7 @@ public class HandleOptions {
         return coins;
     }
 
+    //checks the users coins
     public static boolean checkCoins(int coins, String username){
         if (coins >= 20){
             messageIfUserWins(coins, username);

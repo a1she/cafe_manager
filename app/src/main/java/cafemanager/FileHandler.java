@@ -7,8 +7,11 @@ import java.util.Scanner;
 import java.util.HashMap;
 import java.util.List;
 
+/* This class handles files by reading and writing them */
+
 public class FileHandler {
-    
+
+    // this function creates the introduction file and loads the data into the file
     public void writeIntroductionFile(String username) {
         try {
             FileWriter writer = new FileWriter("introduction.txt");
@@ -32,12 +35,12 @@ public class FileHandler {
                                 "But be careful… if your points fall below 0, your café closes immediately.");   
             writer.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Issue with writing the text file");
         }
     }
 
+    //this function loads the data from the introduction file and displays it to the user
     public void readIntroductionFile() {
-
         File myObj = new File("introduction.txt");
 
         try (Scanner myReader = new Scanner(myObj)) {
@@ -46,63 +49,15 @@ public class FileHandler {
             System.out.println(data);
             //myReader.close();
             }
-
         } catch (Exception e) {
+            System.out.println("Issue with writing the text file");
             e.printStackTrace();
         }
     }
 
-    //when adding new recipe, can't have more than one word for ingredients due to whitespace reduction
-    public void writeFileForRecipes(){
-        try {
-            FileWriter writer = new FileWriter("recipes.txt");
-            writer.write("\nRecipe: Hot Chocolate\n" + //
-                                "\n" + //
-                                "Ingredients     : Quantity\n" + //
-                                " - Milk         | 2.0\n" + //
-                                " - Cocoa_Powder | 1.0\n" + //
-                                " - Sugar        | 0.5\n" + //
-                                "Steps: milk + cocoa powder + sugar" + //
-                                "\nRecipe: Chocolate Croissant\n" + //
-                                "\n" + //
-                                "Ingredients  : Quantity\n" + //
-                                " - Dough     | 2.0\n" + //
-                                " - Butter    | 0.75\n" + //
-                                " - Chocolate | 1.0\n" + //
-                                "Steps: milk + cocoa_powder + sugar\n" + //
-                                "\nRecipe: Cheese Toastie\n" + //
-                                "\n" + //
-                                "Ingredients    : Quantity\n" + //
-                                " - Butter      | 0.5\n" + //
-                                " - Cheese      | 1.0\n" + //
-                                " - Bread_Slice | 2.0\n" + //
-                                "Steps: butter + cheese + bread slice\n" + //
-                                "\nRecipe: Brownie\n" + //
-                                "\n" + //
-                                "Ingredients: : Quantity\n" + //
-                                " - Sugar     | 0.5\n" + //
-                                " - Butter    | 0.5\n" + //
-                                " - Chocolate | 1.0\n" + //
-                                "Steps: sugar + butter + chocolate  \n" + //
-                                "\nRecipe: Latter\n" + //
-                                "\n" + //
-                                "Ingredients: : Quantity\n" + //
-                                " - Milk      | 1.5\n" + //
-                                " - Coffe     | 1.0\n" + //
-                                " - Sugar     | 0.25\n" + //
-                                "Steps: milk + coffe + sugar\n" + //
-                                "");
-            writer.close();         
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    //searches for the recipe within the recipe file
+    //searches for the dish within the recipe text file and prints the recipe
     public void readRecipesFile(String dish) {
-
         File myObj = new File("recipes.txt");
-
         try (Scanner myReader = new Scanner(myObj)) {
             while (myReader.hasNextLine()) {
             String data =myReader.nextLine();
@@ -119,30 +74,30 @@ public class FileHandler {
                 }
             }
         myReader.close();
-    } catch (Exception e) {
+        } catch (Exception e) {
+            System.out.println("Issue with reading the recipe text file");
             e.printStackTrace();
         }
     }
 
-    // need to search for the quantiy and check if they have that much in their ingredinents(hashmap contains name + int quanityt).
+
+    /* this function checks if the user has enough ingredients to create the dish item by comparing their ingredients stock with the amount needed in the text file */
+
     public void checkIfItemCanBeCreated(String dish, int number, HashMap<String, Double> Ingredients, List<FoodInventory> dishInventories) {
         File myObj = new File("recipes.txt");
-
         try (Scanner myReader = new Scanner(myObj)) {
             while (myReader.hasNextLine()) {
                 String data =myReader.nextLine();
                 if (data.contains(dish)){
                     int enoughIngredients = 0;
                     do {
-                        while (myReader.hasNextLine())
-                        {
+                        while (myReader.hasNextLine()){
                             data= myReader.nextLine();
                             if (data.startsWith("Recipe: ")) {
                                 break;
                             }
                             else if (data.contains("-")){
                                 data = data.replaceAll(" ","");
-                                //because of the replace all i can't have a space for an ingredient with more than 1 name e.i cocoa powder != cocoapowder
                                 int index = data.indexOf("|");
                                 String ingredientName = data.substring(1, index);
                                 String ingredientQuantity = data.substring(index+1, data.length());
@@ -158,7 +113,9 @@ public class FileHandler {
                         }
                         break;
                     } while (!data.startsWith("Recipe: ")); 
-
+                    
+                    //if the user has enough ingredients then create the dish
+                    // the each recipe contains 3 ingredients in the recipe text file
                     if (enoughIngredients == 3) {
                         Utility.createAndUpdateInventoryDishes(dishInventories, dish, number);
                         System.out.println("successfully created " +number + " of " + dish);

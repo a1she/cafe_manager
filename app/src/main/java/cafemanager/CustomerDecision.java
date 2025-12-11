@@ -2,8 +2,9 @@ package cafemanager;
 
 import java.util.Scanner;
 
-public class CustomerDecision implements CustomerDecisionMaker {
+/* This class is used to get user inputs for the HandleOptions class */
 
+public class CustomerDecision implements CustomerDecisionMaker {
 
     private Scanner scanner;
 

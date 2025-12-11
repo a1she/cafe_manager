@@ -1,5 +1,7 @@
 package cafemanager;
 
+/* created a customer class with stores information about the customer such as their name, the food/drink and how much they want */
+
 public class Customer {
 
     private String name;
@@ -31,6 +33,5 @@ public class Customer {
     public int getAmount() {
         return amount;
     }
-
 
 }

@@ -1,5 +1,7 @@
 package cafemanager;
 
+/* created an interfact to dictate customer actions */
+
 public interface CustomerDecisionMaker {
 
     boolean shouldServeCustomer(Customer customer);

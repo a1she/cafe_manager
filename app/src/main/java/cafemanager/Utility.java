@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Utility {
+    //creates the cafe's menu
     public static ArrayList<String> createMenu() {
         ArrayList<String> Menu = new ArrayList<>();
         Menu.add("Hot Chocolate");
@@ -17,7 +18,7 @@ public class Utility {
         return Menu;
     }
 
-    //default ingredients for user to use
+    //creates default ingredients for user to use
     public static HashMap<String, Double> createIngredientsCustomerHas() {
         HashMap<String, Double> ingredientsCustomerHas  = new HashMap<String, Double>();
         ingredientsCustomerHas.put("Cheese", 4.0);
@@ -32,6 +33,7 @@ public class Utility {
         return ingredientsCustomerHas;
     }
 
+    //creates a set of customers
     public static List<Customer> createCustomers() {
     List<Customer> customers = new ArrayList<>();
     customers.add(new Customer("Alex", "Hot Chocolate", 2));
@@ -42,6 +44,7 @@ public class Utility {
     return customers;
     }
 
+    //creates a default amount of dishes user already has
     public static List<FoodInventory> createDishInventory() {
         List<FoodInventory> foodInventory = new ArrayList<>();
         foodInventory.add(new FoodInventory("Hot Chocolate", 2));
@@ -52,6 +55,7 @@ public class Utility {
         return foodInventory;
     }
 
+    //creates an ingredient supply list which user can buy from
     public static List<IngredientSupply> createIngredientsCustomerCanBuyFrom() {
         List<IngredientSupply> ingredientSupply = new ArrayList<>();
         ingredientSupply.add(new IngredientSupply("Milk", 10, 5));
@@ -96,6 +100,7 @@ public class Utility {
         return userAmount*(price/inventoryAmount);
     }
 
+    //this checks if the user has the ingredient in their inventory and then updates the amount, if they don't have it then create the ingredient with the amount they bought
     public static void createAndUpdateInventoryIngredients(String ingredientName, HashMap<String, Double> ingredientsCustomerHas, Double buyAmount){
         int counter =0;
         double amount = 0;
@@ -115,6 +120,7 @@ public class Utility {
         }
     }
 
+     //this checks if the user has the dish in their inventory and then updates the amount, if they don't have it then create the new dish with the amount they bought
     public static void createAndUpdateInventoryDishes(List<FoodInventory> dishInventories, String dish, int buyAmount){
         int counter =0;
         for (int i = 0; i < dishInventories.size(); i++ ) {
@@ -130,6 +136,7 @@ public class Utility {
         }
     }
 
+    //allows user to serve the customer by checking if the user has the dish and dish amount in their dish inventory
     public static int serveCustomer( int counter, List<FoodInventory> foodInventory, String foodDesiredByCustomer, List<Customer> customers, int i) {
         int earnedCoins = 0;
         for (int c = 0; c < foodInventory.size(); c++) {
@@ -160,6 +167,7 @@ public class Utility {
         return earnedCoins; 
     }
 
+    //validation function to ensure user inputs an integer
     public static int handleIntUserInput(Scanner scanner) {
         while (true) {
             try {
@@ -173,6 +181,7 @@ public class Utility {
         }
     }
 
+    //validation function to ensure user inputs a string
     public static String handleStringUserInput(Scanner scanner) {
         while (true) {
             String userInput = scanner.nextLine();
@@ -184,6 +193,7 @@ public class Utility {
             }
     }
 
+    //validation function to ensure user inputs Y or N
     public static String handleStringUserInputForYesorNo(Scanner scanner) {
         while (true) {
             String userInput = scanner.nextLine();

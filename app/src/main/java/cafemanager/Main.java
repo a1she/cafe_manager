@@ -63,8 +63,9 @@ public class Main {
         System.out.println("\nThe options bellow will allow you to navigate to different sections of the game, good luck " +username);
 
         System.out.println("Would you like to continue? Y/N");
-        String proceed = Utility.handleStringUserInput(scanner);
+        String proceed = Utility.handleStringUserInputForYesorNo(scanner);
     
+        //askes user to select from the options 
         while (proceed.equalsIgnoreCase("Y")) {
             if (coins >= 0) {
                 showOptionMenu();

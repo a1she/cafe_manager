@@ -1,0 +1,34 @@
+Recipe: Hot Chocolate
+Ingredients    : Quantity
+- Milk         | 2.0
+- Cocoa_Powder | 1.0
+- Sugar        | 0.5
+- Steps: milk + cocoa powder + sugar
+
+Recipe: Chocolate Croissant
+Ingredients : Quantity
+- Dough     | 2.0
+- Butter    | 0.75
+- Chocolate | 1.0
+- Steps: milk + cocoa_powder + sugar
+
+Recipe: Cheese Toastie
+Ingredients   : Quantity
+- Butter      | 0.5
+- Cheese      | 1.0
+- Bread_Slice | 2.0
+Steps: butter + cheese + bread slice
+
+Recipe: Brownie
+Ingredients  : Quantity
+- Sugar      | 0.5
+- Butter     | 0.5
+- Chocolate  | 1.0
+- Steps: sugar + butter + chocolate
+
+Recipe: Latte
+Ingredients  : Quantity
+- Milk       | 1.5
+- Coffee     | 1.0
+- Sugar      | 0.25
+Steps: milk + coffee + sugar
