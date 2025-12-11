@@ -9,6 +9,7 @@ Cafe Manager is a terminal-based resource management game. Your goal is to earn 
 Installation Instructions:
 
 Clone the repository: git clone https://github.com/a1she/cafe_manager.git
+
 Run the program: Execute the game through the main file.
 
 Usage and Examples:
